@@ -92,6 +92,17 @@ Window {
                 anchors.rightMargin: 20
                 anchors.bottomMargin: 10
                 anchors.topMargin: 10
+
+                BtnLockerForm {
+                    id: btnLockerDeposito
+                    anchors.fill: parent
+                    anchors.rightMargin: 10
+                    anchors.leftMargin: 10
+                    anchors.bottomMargin: 10
+                    anchors.topMargin: 10
+                    text2.text: "Clicca per il deposito"
+                    text1.text: "DEPOSITO ARTICOLO"
+                }
             }
         }
 
@@ -108,10 +119,11 @@ Window {
             id: btnHomeRitiro
             x: 275
             y: 282
-            width: 225
+            width: 263
             height: 200
             radius: 20
             anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             gradient: Gradient {
                 GradientStop {
                     position: 0
@@ -125,12 +137,12 @@ Window {
             }
             Text {
                 id: btnHomeRitiroText
-                y: 46
+                y: 34
                 color: "#fdfdfd"
                 text: qsTr("RITIRO ARTICOLO")
                 anchors.left: parent.left
                 anchors.right: parent.right
-                font.pixelSize: 24
+                font.pixelSize: 26
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
                 font.bold: true
@@ -181,6 +193,18 @@ Window {
         anchors.top: pnlHeader.bottom
         anchors.bottom: parent.bottom
 
+        BtnLockerForm {
+            id: btnLockerRitiroArticolo
+            x: 14
+            y: 25
+            width: 381
+            height: 266
+            text2.horizontalAlignment: Text.AlignHCenter
+            text1.horizontalAlignment: Text.AlignHCenter
+            text2.text: "Clicca qui per ritirare un articolo"
+            text1.text: "RITIRO ARTICOLO"
+        }
+
     }
 
 
@@ -188,7 +212,7 @@ Window {
 
 /*##^##
 Designer {
-    D{i:3}D{i:5}D{i:6}D{i:4}D{i:7}D{i:2}D{i:1}D{i:13;invisible:true}D{i:14;invisible:true}
-D{i:8}D{i:15;invisible:true}D{i:16;invisible:true}
+    D{i:3}D{i:5}D{i:6}D{i:4}D{i:8}D{i:7}D{i:2}D{i:1}D{i:14;invisible:true}D{i:15;invisible:true}
+D{i:9}D{i:16;invisible:true}D{i:17;invisible:true}
 }
 ##^##*/
