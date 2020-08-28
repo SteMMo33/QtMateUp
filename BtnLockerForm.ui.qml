@@ -1,8 +1,9 @@
 import QtQuick 2.4
 
 Item {
+    id: bottone
     width: 350
-    height: 300
+    height: 250
     property alias text2: text2
     property alias text1: text1
 
@@ -15,7 +16,7 @@ Item {
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: "#fed513"
+                color: "#c5b703"
             }
 
             GradientStop {
@@ -26,35 +27,30 @@ Item {
 
         Text {
             id: text1
-            y: 97
+            x: 75
+            y: 117
             width: 200
             height: 24
             color: "#fdfdfd"
             text: qsTr("Text")
-            anchors.left: parent.left
-            anchors.right: parent.right
-            font.pixelSize: 12
+            font.pixelSize: 20
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            fontSizeMode: Text.VerticalFit
-            anchors.rightMargin: 40
-            anchors.leftMargin: 40
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.bold: true
+            fontSizeMode: Text.Fit
         }
 
         Text {
             id: text2
-            y: 223
+            x: 164
+            y: 160
+            height: 24
             color: "#fdfdfd"
             text: qsTr("Text")
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
             font.pixelSize: 12
             horizontalAlignment: Text.AlignHCenter
-            anchors.bottomMargin: 50
             fontSizeMode: Text.HorizontalFit
-            anchors.rightMargin: 30
-            anchors.leftMargin: 30
         }
     }
 }
