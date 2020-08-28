@@ -103,6 +103,10 @@ Window {
                     anchors.topMargin: 10
                     text2.text: "Clicca per il deposito"
                     text1.text: "DEPOSITO ARTICOLO"
+                    onPressedChanged: function(){
+                        pnlDeposito.visible=true
+                        pnlHome.visible=false
+                    }
                 }
             }
         }
@@ -184,6 +188,15 @@ Window {
             text1.horizontalAlignment: Text.AlignHCenter
             text2.text: "Clicca qui per ritirare un articolo"
             text1.text: "RITIRO ARTICOLO"
+
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                onClicked: function(){
+                    pnlRitiro.visible=true;
+                    pnlHome.visible = false
+                }
+            }
         }
     }
 
@@ -191,10 +204,40 @@ Window {
 
     Item {
         id: pnlDeposito
+        visible: false
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: pnlHeader.bottom
         anchors.bottom: parent.bottom
+
+        Rectangle {
+            id: pnlDepositoInterno
+            width: 200
+            height: 200
+            color: "#ffffff"
+            visible: true
+            z: -8
+
+
+            Text {
+                id: element
+                text: qsTr("Scritta in questa pagina")
+                visible: true
+                font.pixelSize: 12
+            }
+
+            BtnLocker {
+                id: btnLocker
+                x: 0
+                y: 0
+                z: -3
+                visible: true
+                onPressedChanged: function(){
+                    pnlHome.visible=true
+                    pnlDeposito.visible=false
+                }
+            }
+        }
     }
 
 
@@ -202,6 +245,7 @@ Window {
 
     Item {
         id: pnlRitiro
+        visible: false
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: pnlHeader.bottom
@@ -259,6 +303,12 @@ Window {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignTop
                     font.bold: true
+                    onFocusChanged: function(){
+                        text=""
+                        gridKeyboard.visible = focus
+                    }
+                    onActiveFocusChanged: console.log("onActFocCh");
+                    onActiveFocusOnPressChanged: console.log("onActFocChOnPress");
                 }
 
 
@@ -309,14 +359,55 @@ Window {
             }
 
             Grid {
-                id: grid
+                id: gridKeyboard
                 width: 450
                 height: 250
+                spacing: 1
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 20
                 rows: 4
                 columns: 3
                 anchors.horizontalCenter: parent.horizontalCenter
+                visible: false
+
+                BtnKeyboard {
+                    id: btnKey1
+                    keyName: "1"
+                    onPressedChanged: function(){
+                        if(pressedButtons) edtCodicePrenotazione.text += "1"
+                    }
+                }
+
+                BtnKeyboard {
+                    id: btnKey2
+                    width: 100
+                    height: 100
+                    keyName: "2"
+                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "2"
+                }
+
+                BtnKeyboard {
+                    id: btnKey3
+                    keyName: "3"
+                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "3"
+                }
+
+                BtnKeyboard {
+                    id: btnKey4
+                    keyName: "4"
+                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "4"
+                }
+
+                BtnKeyboard {
+                    id: btnKbdHide
+                    keyName: "Hide"
+                    onPressedChanged: function(){
+                        pnlRitiro.visible=false
+                        pnlHome.visible = true
+                        gridKeyboard.visible = false
+                    }
+                }
+
             }
 
 
@@ -336,3 +427,32 @@ Designer {
 D{i:9;invisible:true}D{i:17;invisible:true}D{i:22}D{i:24}D{i:25}D{i:23}D{i:26}D{i:19}
 }
 ##^##*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*##^## Designer {
+    D{i:17;anchors_height:100;anchors_width:100}D{i:9;invisible:true}D{i:22;invisible:true}
+}
+ ##^##*/

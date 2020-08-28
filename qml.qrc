@@ -3,5 +3,7 @@
         <file>main.qml</file>
         <file>BtnLocker.qml</file>
         <file>BtnLockerForm.ui.qml</file>
+        <file>qr_code.png</file>
+        <file>BtnKeyboard.qml</file>
     </qresource>
 </RCC>

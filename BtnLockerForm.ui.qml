@@ -4,8 +4,9 @@ Item {
     id: bottone
     width: 350
     height: 250
-    property alias text2: text2
     property alias text1: text1
+    property alias text2: text2
+    property alias pressed: mouseArea.pressed
 
     Rectangle {
         id: rectBackground
@@ -51,6 +52,13 @@ Item {
             font.pixelSize: 12
             horizontalAlignment: Text.AlignHCenter
             fontSizeMode: Text.HorizontalFit
+        }
+
+        MouseArea {
+            id: mouseArea
+            width: 100
+            height: 100
+            z: -6
         }
     }
 }
