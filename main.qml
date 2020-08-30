@@ -1,4 +1,4 @@
-import QtQuick 2.9
+import QtQuick 2.5
 import QtQuick.Window 2.2
 
 Window {
@@ -8,6 +8,9 @@ Window {
     visible: true
     property alias edtCodicePrenotazione: edtCodicePrenotazione
     title: qsTr("QtLocker")
+
+    FontLoader { id: proximaNovaBold; source: "fonts/ProximaNova-Bold.otf" }
+    FontLoader { id: proximaNovaRegular; source: "fonts/ProximaNova-Regular.otf" }
 
     Item {
         id: pnlHeader
@@ -94,16 +97,16 @@ Window {
                 anchors.bottomMargin: 10
                 anchors.topMargin: 10
 
-                BtnLockerForm {
+                BtnLocker {
                     id: btnLockerDeposito
                     anchors.fill: parent
                     anchors.rightMargin: 10
                     anchors.leftMargin: 10
                     anchors.bottomMargin: 10
                     anchors.topMargin: 10
-                    text2.text: "Clicca per il deposito"
-                    text1.text: "DEPOSITO ARTICOLO"
-                    onPressedChanged: function(){
+                    textSec: "Clicca per il deposito"
+                    text1Main: "DEPOSITO ARTICOLO"
+                    onClick: function(){
                         pnlDeposito.visible=true
                         pnlHome.visible=false
                     }
@@ -120,83 +123,18 @@ Window {
         anchors.top: pnlHeader.bottom
         anchors.bottom: parent.bottom
 
-        Rectangle {
-            id: btnHomeRitiro
-            x: 275
-            y: 282
-            width: 263
-            height: 200
-            radius: 20
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            gradient: Gradient {
-                GradientStop {
-                    position: 0
-                    color: "#c5b703"
-                }
-
-                GradientStop {
-                    position: 1
-                    color: "#e88705"
-                }
-            }
-            Text {
-                id: btnHomeRitiroText
-                y: 34
-                color: "#fdfdfd"
-                text: qsTr("RITIRO ARTICOLO")
-                anchors.left: parent.left
-                anchors.right: parent.right
-                font.pixelSize: 26
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-                font.bold: true
-                style: Text.Sunken
-                anchors.rightMargin: 20
-                minimumPixelSize: 17
-                fontSizeMode: Text.FixedSize
-                anchors.leftMargin: 20
-            }
-
-            Text {
-                id: btnHomeRitiroText2
-                y: 120
-                color: "#fdfdfd"
-                text: qsTr("Clicca qui per ritirare un articolo")
-                anchors.left: parent.left
-                anchors.right: parent.right
-                font.pixelSize: 19
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-                font.family: "MS Shell Dlg 2"
-                fontSizeMode: Text.FixedSize
-                anchors.leftMargin: 20
-                anchors.rightMargin: 20
-                minimumPixelSize: 17
-                font.bold: true
-                style: Text.Sunken
-            }
-        }
-
-        BtnLockerForm {
+        BtnLocker {
             id: btnLockerRitiroArticolo
             x: 14
             y: 25
             width: 381
             height: 266
-            text2.horizontalAlignment: Text.AlignHCenter
-            text1.horizontalAlignment: Text.AlignHCenter
-            text2.text: "Clicca qui per ritirare un articolo"
-            text1.text: "RITIRO ARTICOLO"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            textSec:  "Clicca qui per ritirare un articolo"
+            text1Main: "RITIRO ARTICOLO"
+            onClick: console.log("QQQ")
 
-            MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-                onClicked: function(){
-                    pnlRitiro.visible=true;
-                    pnlHome.visible = false
-                }
-            }
         }
     }
 
@@ -212,31 +150,47 @@ Window {
 
         Rectangle {
             id: pnlDepositoInterno
-            width: 200
-            height: 200
+            width: 470
             color: "#ffffff"
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
             visible: true
             z: -8
 
 
             Text {
                 id: element
+                height: 69
                 text: qsTr("Scritta in questa pagina")
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                fontSizeMode: Text.VerticalFit
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
                 visible: true
                 font.pixelSize: 12
             }
 
             BtnLocker {
-                id: btnLocker
-                x: 0
-                y: 0
-                z: -3
-                visible: true
-                onPressedChanged: function(){
-                    pnlHome.visible=true
-                    pnlDeposito.visible=false
+                id: btnLockerForm
+                width: 254
+                height: 190
+                textSec: "SecForm"
+                text1Main: "PriForm"
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: element.bottom
+                anchors.topMargin: 10
+                onClick: function(){
+
+                    console.log("TYTY")
+                    pnlDeposito.visible = false;
+                    pnlHome.visible = true;
                 }
+
             }
+
         }
     }
 
@@ -250,10 +204,6 @@ Window {
         anchors.right: parent.right
         anchors.top: pnlHeader.bottom
         anchors.bottom: parent.bottom
-
-
-
-
 
 
         Item {
@@ -309,6 +259,7 @@ Window {
                     }
                     onActiveFocusChanged: console.log("onActFocCh");
                     onActiveFocusOnPressChanged: console.log("onActFocChOnPress");
+
                 }
 
 
@@ -331,10 +282,10 @@ Window {
                     height: 200
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    source: "qr_code.png"
+                    source: "images/qr_code.png"
                     sourceSize.height: 350
                     sourceSize.width: 350
-                    anchors.leftMargin: 172
+                    anchors.leftMargin: 120
                     fillMode: Image.PreserveAspectFit
                 }
 
@@ -399,6 +350,11 @@ Window {
                 }
 
                 BtnKeyboard {
+                    id: btnKey5
+                    keyName: "5"
+                }
+
+                BtnKeyboard {
                     id: btnKbdHide
                     keyName: "Hide"
                     onPressedChanged: function(){
@@ -408,6 +364,7 @@ Window {
                     }
                 }
 
+
             }
 
 
@@ -416,6 +373,8 @@ Window {
 
         }
     }
+
+
 
 
 
@@ -452,7 +411,37 @@ D{i:9;invisible:true}D{i:17;invisible:true}D{i:22}D{i:24}D{i:25}D{i:23}D{i:26}D{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*##^## Designer {
-    D{i:17;anchors_height:100;anchors_width:100}D{i:9;invisible:true}D{i:22;invisible:true}
+    D{i:9;invisible:true}D{i:14;anchors_height:200}
 }
  ##^##*/

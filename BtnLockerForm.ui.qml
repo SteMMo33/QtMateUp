@@ -1,12 +1,12 @@
-import QtQuick 2.4
+import QtQuick 2.5
 
 Item {
     id: bottone
     width: 350
     height: 250
-    property alias text1: text1
-    property alias text2: text2
-    property alias pressed: mouseArea.pressed
+    property alias mouseArea: mouseArea
+    property alias text1Main: text1.text
+    property alias textSec: text2.text
 
     Rectangle {
         id: rectBackground
@@ -17,24 +17,26 @@ Item {
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: "#c5b703"
+                color: "#9f8505"
             }
 
             GradientStop {
                 position: 1
-                color: "#fbdf5a"
+                color: "#fedb34"
             }
         }
 
         Text {
             id: text1
             x: 75
-            y: 117
+            y: 96
             width: 200
-            height: 24
+            height: 47
             color: "#fdfdfd"
-            text: qsTr("Text")
-            font.pixelSize: 20
+            text: qsTr("Pri")
+            anchors.horizontalCenterOffset: 0
+            style: Text.Sunken
+            font.pixelSize: 40
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
             anchors.horizontalCenter: parent.horizontalCenter
@@ -46,19 +48,20 @@ Item {
             id: text2
             x: 164
             y: 160
-            height: 24
+            width: 100
+            height: 40
             color: "#fdfdfd"
-            text: qsTr("Text")
+            text: qsTr("Sec")
+            anchors.horizontalCenter: parent.horizontalCenter
+            wrapMode: Text.WordWrap
             font.pixelSize: 12
             horizontalAlignment: Text.AlignHCenter
-            fontSizeMode: Text.HorizontalFit
+            fontSizeMode: Text.Fit
         }
 
         MouseArea {
             id: mouseArea
-            width: 100
-            height: 100
-            z: -6
+            anchors.fill: parent
         }
     }
 }
@@ -69,3 +72,11 @@ Designer {
 }
 ##^##*/
 
+
+
+
+
+/*##^## Designer {
+    D{i:7;anchors_height:100;anchors_width:100}
+}
+ ##^##*/

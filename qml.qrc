@@ -3,7 +3,10 @@
         <file>main.qml</file>
         <file>BtnLocker.qml</file>
         <file>BtnLockerForm.ui.qml</file>
-        <file>qr_code.png</file>
         <file>BtnKeyboard.qml</file>
+        <file>fonts/ProximaNova-Bold.otf</file>
+        <file>fonts/ProximaNova-Regular.otf</file>
+        <file>main.cpp</file>
+        <file>images/qr_code.png</file>
     </qresource>
 </RCC>
