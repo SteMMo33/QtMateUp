@@ -1,4 +1,4 @@
-QT += quick
+QT += quick sql websockets
 
 CONFIG += c++11
 
@@ -8,7 +8,8 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    settings.cpp
+    settings.cpp \
+    ioboard.cpp
 
 RESOURCES += qml.qrc
 
@@ -26,4 +27,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
-    settings.h
+    settings.h \
+    ioboard.h

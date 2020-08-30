@@ -133,7 +133,10 @@ Window {
             anchors.verticalCenter: parent.verticalCenter
             textSec:  "Clicca qui per ritirare un articolo"
             text1Main: "RITIRO ARTICOLO"
-            onClick: console.log("QQQ")
+            onClick: function(){
+                pnlRitiro.visible = true
+                pnlHome.visible = false
+            }
 
         }
     }
@@ -386,6 +389,8 @@ Designer {
 D{i:9;invisible:true}D{i:17;invisible:true}D{i:22}D{i:24}D{i:25}D{i:23}D{i:26}D{i:19}
 }
 ##^##*/
+
+
 
 
 

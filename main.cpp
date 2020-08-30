@@ -4,7 +4,7 @@
 #include "settings.h"
 
 
-Settings settings;
+static Settings settings;
 
 
 
