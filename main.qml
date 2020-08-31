@@ -7,7 +7,7 @@ Window {
     height: 800
     visible: true
     visibility: Window.FullScreen
-    color: black
+    color: "black"
 
     property alias edtCodicePrenotazione: edtCodicePrenotazione
     title: qsTr("QtLocker")

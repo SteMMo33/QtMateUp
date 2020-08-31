@@ -6,12 +6,21 @@
  * @brief IoBoard::IoBoard
  * Costruttore oggetto IoBoard che comunica via websocket
  */
-IoBoard::IoBoard()
+IoBoard::IoBoard(QObject* parent) : QObject(parent)
 {
     qDebug() << "Costruttore IoBoard";
 
-    // QObject::connect( &m_ws, &QWebSocket::connected, this, &IoBoard::onConnected);
-    m_ws.open(QUrl("localhost"));
+    QObject::connect( &_ws, &QWebSocket::connected, this, &IoBoard::onConnected);
+
+    connect( &_ws, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error),
+        [=](QAbstractSocket::SocketError error){
+            qDebug() << "[IoBoard] Errore: " << error;
+        }
+    );
+
+    QUrl url ("ws://localhost:7681");
+    qDebug() << "[IoBoard] url: " << url.toString() << " - Host: " << url.host() << " - Port: " << url.port();
+    _ws.open(url);
 }
 
 
@@ -20,9 +29,15 @@ IoBoard::IoBoard()
  */
 void IoBoard::onConnected()
 {
-    qDebug() << "WebSocket connected";
-    // QObject::connect( &m_ws, &QWebSocket::textMessageReceived, this, &IoBoard::onTextMessageReceived);
-    m_ws.sendTextMessage(QStringLiteral("Hello, world!"));
+    qDebug() << "[IoBoard] WebSocket connected";
+    QObject::connect( &_ws, &QWebSocket::textMessageReceived, this, &IoBoard::onTextMessageReceived);
+    QObject::connect( &_ws, &QWebSocket::binaryMessageReceived, this, &IoBoard::onBinMessageReceived);
+
+    // _ws.sendTextMessage(QStringLiteral("Hello, world!"));
+
+    char cmd[] = { 0x00, 0x00, 0x7F};
+    QByteArray fwCmd(cmd);
+    _ws.sendBinaryMessage(fwCmd);
 }
 
 
@@ -32,6 +47,18 @@ void IoBoard::onConnected()
  */
 void IoBoard::onTextMessageReceived(QString message)
  {
-    qDebug() << "Message received:" << message;
-     m_ws.close();
+    qDebug() << "[IoBoard] Message received:" << message;
+    _ws.close();
  }
+
+
+void IoBoard::onBinMessageReceived(QByteArray message)
+{
+    qDebug() << "[IoBoard] Binary message: " << message;
+};
+
+
+void IoBoard::onError(QAbstractSocket::SocketError error)
+{
+    qDebug() << "[IoBoard] Error: " << error;
+};

@@ -5,17 +5,22 @@
 #include <QtWebSockets>
 
 
-class IoBoard
+class IoBoard : public QObject
 {
+    Q_OBJECT
+
 public:
-    IoBoard();
+    IoBoard(QObject* parent);
 
 private Q_SLOTS:
-      void onConnected();
-      void onTextMessageReceived(QString message);
+    void onConnected();
+    void onTextMessageReceived(QString message);
+    void onBinMessageReceived(QByteArray message);
+    void onError(QAbstractSocket::SocketError error);
 
 private:
-    QWebSocket m_ws;
+    QWebSocket _ws;
 };
+
 
 #endif // IOBOARD_H

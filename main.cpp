@@ -7,7 +7,7 @@
 
 
 static Settings settings;
-static IoBoard ioboard;
+static IoBoard ioboard(NULL);
 
 
 
