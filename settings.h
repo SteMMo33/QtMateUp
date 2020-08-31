@@ -2,6 +2,8 @@
 #define SETTINGS_H
 
 #include <QMap>
+#include <QDebug>
+#include <QtSql/QSqlQuery>
 
 
 class Settings

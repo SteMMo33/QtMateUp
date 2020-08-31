@@ -1,8 +1,4 @@
 
-#include <QDebug>
-#include <QtSql/QSqlQuery>
-
-
 #include "settings.h"
 
 /**

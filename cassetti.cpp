@@ -1,0 +1,32 @@
+#include "cassetti.h"
+
+
+/**
+ * @brief Cassetti::Cassetti
+ * Costruttore
+ */
+Cassetti::Cassetti() : _number(0)
+{
+    qDebug() << "Costruttore Cassetti";
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName("localhost");
+    db.setDatabaseName("kiosk");
+    db.setUserName("root");
+    db.setPassword("amtek");
+    bool ok = db.open();
+    qDebug() << ">> open: " << ok;
+
+    if (ok){
+        QSqlQuery query("select * from cassetti_details;");
+        while (query.next()) {
+            Cassetto* cass = new Cassetto();
+            cass->isEmpty = query.value("Vuoto").toBool();
+            _cassetti.append(*cass);
+
+            ++_number;
+        }
+        db.close();
+    }
+
+}

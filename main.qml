@@ -71,7 +71,7 @@ Window {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: parent.top
-                    font.pixelSize: 21
+                    font.pixelSize: 35
                     horizontalAlignment: Text.AlignHCenter
                     fontSizeMode: Text.Fit
                     font.bold: true

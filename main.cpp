@@ -4,11 +4,14 @@
 
 #include "settings.h"
 #include "ioboard.h"
+#include "cassetti.h"
+#include "prenotazioni.h"
 
 
 static Settings settings;
 static IoBoard ioboard(NULL);
-
+static Cassetti cassetti;
+static Prenotazioni prenotazioni;
 
 
 int main(int argc, char *argv[])
@@ -32,6 +35,10 @@ int main(int argc, char *argv[])
 
     // Prova accesso settings
     qDebug() << "Farmacia: " << settings["farmacia"];
+    qDebug() << "Cassetti: " << settings["column"];
+
+    // Cassetti
+    qDebug() << "Cassetti da tabella: " << cassetti.GetNumber();
 
     return app.exec();
 }
