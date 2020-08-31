@@ -5,7 +5,7 @@ Item {
     width: 350
     height: 250
     property alias mouseArea: mouseArea
-    property alias text1Main: text1.text
+    property alias textMain: text1.text
     property alias textSec: text2.text
 
     Rectangle {
@@ -29,7 +29,7 @@ Item {
         Text {
             id: text1
             x: 75
-            y: 96
+            y: 68
             width: 200
             height: 47
             color: "#fdfdfd"
@@ -68,15 +68,13 @@ Item {
 
 /*##^##
 Designer {
-    D{i:5}D{i:6}D{i:1}
+    D{i:0;height:250;width:350}
 }
 ##^##*/
-
-
-
 
 
 /*##^## Designer {
     D{i:7;anchors_height:100;anchors_width:100}
 }
  ##^##*/
+

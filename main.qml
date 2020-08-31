@@ -3,9 +3,11 @@ import QtQuick.Window 2.2
 
 Window {
     id: window
-    width: 950
-    height: 650
+    width: 900
+    height: 800
     visible: true
+    visibility: Window.FullScreen
+
     property alias edtCodicePrenotazione: edtCodicePrenotazione
     title: qsTr("QtLocker")
 
@@ -53,6 +55,7 @@ Window {
 
                 Text {
                     id: txtHeaderC1
+                    height: 37
                     color: "#fdfdfd"
                     text: qsTr("Locker 1 - AMtek - Prova")
                     anchors.left: parent.left
@@ -60,7 +63,7 @@ Window {
                     anchors.top: parent.top
                     font.pixelSize: 21
                     horizontalAlignment: Text.AlignHCenter
-                    fontSizeMode: Text.HorizontalFit
+                    fontSizeMode: Text.Fit
                     font.bold: true
                     anchors.topMargin: 30
                     anchors.rightMargin: 15
@@ -105,7 +108,7 @@ Window {
                     anchors.bottomMargin: 10
                     anchors.topMargin: 10
                     textSec: "Clicca per il deposito"
-                    text1Main: "DEPOSITO ARTICOLO"
+                    textMain: "DEPOSITO ARTICOLO"
                     onClick: function(){
                         pnlDeposito.visible=true
                         pnlHome.visible=false
@@ -132,7 +135,7 @@ Window {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             textSec:  "Clicca qui per ritirare un articolo"
-            text1Main: "RITIRO ARTICOLO"
+            textMain: "RITIRO ARTICOLO"
             onClick: function(){
                 pnlRitiro.visible = true
                 pnlHome.visible = false
@@ -181,17 +184,14 @@ Window {
                 width: 254
                 height: 190
                 textSec: "SecForm"
-                text1Main: "PriForm"
+                textMain: "PriForm"
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: element.bottom
                 anchors.topMargin: 10
                 onClick: function(){
-
-                    console.log("TYTY")
                     pnlDeposito.visible = false;
                     pnlHome.visible = true;
                 }
-
             }
 
         }
@@ -202,7 +202,7 @@ Window {
 
     Item {
         id: pnlRitiro
-        visible: false
+        visible: true
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: pnlHeader.bottom
@@ -212,8 +212,6 @@ Window {
         Item {
             id: pnlRitiroInterna
             anchors.fill: parent
-            anchors.rightMargin: 100
-            anchors.leftMargin: 100
 
 
 
@@ -251,10 +249,13 @@ Window {
                 TextEdit {
                     id: edtCodicePrenotazione
                     text: qsTr("Codice prenotazione")
-                    anchors.fill: parent
-                    font.pixelSize: 26
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    font.pixelSize: 28
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignTop
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    selectByMouse: true
                     font.bold: true
                     onFocusChanged: function(){
                         text=""
@@ -272,10 +273,10 @@ Window {
 
             Item {
                 id: pnlIstruzioni
-                anchors.left: parent.left
-                anchors.right: parent.right
+                width: 600
                 anchors.top: pnlEditCodice.bottom
                 anchors.bottom: parent.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: 10
 
                 Image {
@@ -288,7 +289,7 @@ Window {
                     source: "images/qr_code.png"
                     sourceSize.height: 350
                     sourceSize.width: 350
-                    anchors.leftMargin: 120
+                    anchors.leftMargin: 70
                     fillMode: Image.PreserveAspectFit
                 }
 
@@ -297,28 +298,24 @@ Window {
                     x: 0
                     y: 88
                     text: "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Tutte le scritte per la spiegazione ed istruzioni.</p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Istruzioni per il ritiro</span></p>\n<ol style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-size:10pt; font-weight:600;\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Scansionare il codice a barre</li>\n<li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Passo 2</li>\n<li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Passo 3</li></ol>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">In caso di difficoltà fare in altro modo</p></body></html>"
-                    anchors.left: image.right
+                    anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
                     font.pixelSize: 17
                     textFormat: Text.RichText
-                    anchors.bottomMargin: 50
                     fontSizeMode: Text.Fit
-                    anchors.topMargin: 30
-                    anchors.leftMargin: 30
-                    anchors.rightMargin: 30
+                    anchors.rightMargin: 60
                 }
 
             }
 
             Grid {
                 id: gridKeyboard
+                y: 157
                 width: 450
-                height: 250
+                height: 483
                 spacing: 1
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: 20
+                anchors.bottomMargin: 10
                 rows: 4
                 columns: 3
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -334,8 +331,6 @@ Window {
 
                 BtnKeyboard {
                     id: btnKey2
-                    width: 100
-                    height: 100
                     keyName: "2"
                     onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "2"
                 }
@@ -355,10 +350,36 @@ Window {
                 BtnKeyboard {
                     id: btnKey5
                     keyName: "5"
+                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "5"
+                }
+
+                BtnKeyboard {
+                    id: btnKey6
+                    keyName: "6"
+                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "6"
+                }
+
+                BtnKeyboard {
+                    id: btnKey7
+                    keyName: "7"
+                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "7"
+                }
+
+                BtnKeyboard {
+                    id: btnKey8
+                    keyName: "8"
+                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "8"
+                }
+
+                BtnKeyboard {
+                    id: btnKey9
+                    keyName: "9"
+                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "9"
                 }
 
                 BtnKeyboard {
                     id: btnKbdHide
+                    textColor: "#ff0404"
                     keyName: "Hide"
                     onPressedChanged: function(){
                         pnlRitiro.visible=false
@@ -367,6 +388,24 @@ Window {
                     }
                 }
 
+                BtnKeyboard {
+                    id: btnKey0
+                    keyName: "0"
+                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "0"
+                }
+
+                BtnKeyboard {
+                    id: btnKeyOk
+                    textColor: "#2db502"
+                    keyName: "OK"
+                    onPressedChanged: function(){
+                        pnlRitiro.visible=false
+                        pnlHome.visible = true
+                        gridKeyboard.visible = false
+
+                        console.log("OK - "+edtCodicePrenotazione.text)
+                    }
+                }
 
             }
 
@@ -385,8 +424,7 @@ Window {
 
 /*##^##
 Designer {
-    D{i:3}D{i:5}D{i:6}D{i:4}D{i:8}D{i:7}D{i:2}D{i:1}D{i:14;invisible:true}D{i:15;invisible:true}
-D{i:9;invisible:true}D{i:17;invisible:true}D{i:22}D{i:24}D{i:25}D{i:23}D{i:26}D{i:19}
+    D{i:9;invisible:true}D{i:15;invisible:true}D{i:14;invisible:true}
 }
 ##^##*/
 

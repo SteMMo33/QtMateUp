@@ -5,6 +5,7 @@ Item {
     width: 120
     height: 120
     property alias keyName: keyName.text
+    property alias textColor: keyName.color
     property alias pressed: mouseArea.pressed
     property alias pressedButtons: mouseArea.pressedButtons
 
@@ -14,12 +15,12 @@ Item {
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: "#00ff00"
+                color: "#e88705"
             }
 
             GradientStop {
                 position: 1
-                color: "#006600"
+                color: "#fed513"
             }
         }
         anchors.fill: parent

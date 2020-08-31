@@ -10,7 +10,7 @@ IoBoard::IoBoard()
 {
     qDebug() << "Costruttore IoBoard";
 
-    QObject::connect( &m_ws, &QWebSocket::connected, this, &IoBoard::onConnected);
+    // QObject::connect( &m_ws, &QWebSocket::connected, this, &IoBoard::onConnected);
     m_ws.open(QUrl("localhost"));
 }
 
@@ -21,7 +21,7 @@ IoBoard::IoBoard()
 void IoBoard::onConnected()
 {
     qDebug() << "WebSocket connected";
-    QObject::connect( &m_ws, &QWebSocket::textMessageReceived, this, &IoBoard::onTextMessageReceived);
+    // QObject::connect( &m_ws, &QWebSocket::textMessageReceived, this, &IoBoard::onTextMessageReceived);
     m_ws.sendTextMessage(QStringLiteral("Hello, world!"));
 }
 

@@ -14,17 +14,20 @@ Settings::Settings()
     qDebug() << "Costruttore Settings";
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName("bigblue");
-        db.setDatabaseName("flightdb");
-        db.setUserName("root");
-        db.setPassword("amtek");
-        bool ok = db.open();
+    db.setHostName("localhost");
+    db.setDatabaseName("kiosk");
+    db.setUserName("root");
+    db.setPassword("amtek");
+    bool ok = db.open();
+    qDebug() << ">> open: " << ok;
 
-    QSqlQuery query("select * from settings;");
-    while (query.next()) {
-        QString country = query.value(0).toString();
+    if (ok){
+        QSqlQuery query("select * from settings;");
+        while (query.next()) {
+            QString country = query.value(0).toString();
             // doSomething(country);
-        qDebug()<< query.value("name") << " -> " << query.value("value");
+            qDebug()<< query.value("name") << " -> " << query.value("value");
+        }
+        db.close();
     }
-    db.close();
 }
