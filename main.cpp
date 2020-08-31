@@ -3,9 +3,11 @@
 #include <QDebug>
 
 #include "settings.h"
+#include "ioboard.h"
 
 
 static Settings settings;
+static IoBoard ioboard;
 
 
 
@@ -27,6 +29,9 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     qDebug() << "Platform: " << app.platformName();
+
+    // Prova accesso settings
+    qDebug() << "Farmacia: " << settings["farmacia"];
 
     return app.exec();
 }

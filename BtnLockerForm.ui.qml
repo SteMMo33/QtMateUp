@@ -7,6 +7,8 @@ Item {
     property alias mouseArea: mouseArea
     property alias textMain: text1.text
     property alias textSec: text2.text
+    property alias textMainSize: text1.font.pixelSize
+    property alias textSecSize: text2.font.pixelSize
 
     Rectangle {
         id: rectBackground
@@ -28,41 +30,42 @@ Item {
 
         Text {
             id: text1
-            x: 75
-            y: 68
-            width: 200
+            y: bottone.height * 0.28
             height: 47
             color: "#fdfdfd"
             text: qsTr("Pri")
-            anchors.horizontalCenterOffset: 0
+            anchors.left: parent.left
+            anchors.right: parent.right
             style: Text.Sunken
             font.pixelSize: 40
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.rightMargin: 50
+            anchors.leftMargin: 50
             font.bold: true
             fontSizeMode: Text.Fit
         }
 
         Text {
             id: text2
-            x: 164
-            y: 160
-            width: 100
-            height: 40
+            y: bottone.height * 0.7
+            height: 42
             color: "#fdfdfd"
             text: qsTr("Sec")
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
+            anchors.right: parent.right
             wrapMode: Text.WordWrap
-            font.pixelSize: 12
+            anchors.rightMargin: 50
+            anchors.leftMargin: 50
+            font.pixelSize: 15
             horizontalAlignment: Text.AlignHCenter
             fontSizeMode: Text.Fit
         }
+    }
 
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-        }
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
     }
 }
 

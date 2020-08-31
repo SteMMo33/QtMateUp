@@ -7,6 +7,7 @@ Window {
     height: 800
     visible: true
     visibility: Window.FullScreen
+    color: black
 
     property alias edtCodicePrenotazione: edtCodicePrenotazione
     title: qsTr("QtLocker")
@@ -14,10 +15,19 @@ Window {
     FontLoader { id: proximaNovaBold; source: "fonts/ProximaNova-Bold.otf" }
     FontLoader { id: proximaNovaRegular; source: "fonts/ProximaNova-Regular.otf" }
 
-    Item {
+    function showHome(){
+        pnlDeposito.visible = false
+        pnlRitiro.visible = false
+        txtHeaderC2.text = "SELEZIONA IL SERVIZIO"
+        pnlHome.visible = true
+    }
+
+
+    Rectangle {
         id: pnlHeader
         y: 0
         height: 150
+        color: "black"
         anchors.left: parent.left
         anchors.right: parent.right
 
@@ -57,7 +67,7 @@ Window {
                     id: txtHeaderC1
                     height: 37
                     color: "#fdfdfd"
-                    text: qsTr("Locker 1 - AMtek - Prova")
+                    text: qsTr("Nome locker - Prova")
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: parent.top
@@ -103,6 +113,7 @@ Window {
                 BtnLocker {
                     id: btnLockerDeposito
                     anchors.fill: parent
+                    textSecSize: 11
                     anchors.rightMargin: 10
                     anchors.leftMargin: 10
                     anchors.bottomMargin: 10
@@ -112,6 +123,7 @@ Window {
                     onClick: function(){
                         pnlDeposito.visible=true
                         pnlHome.visible=false
+                        txtHeaderC2.text = "DEPOSITO ARTICOLO"
                     }
                 }
             }
@@ -119,8 +131,9 @@ Window {
 
     }
 
-    Item {
+    Rectangle {
         id: pnlHome
+        color: "#000000"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: pnlHeader.bottom
@@ -130,15 +143,18 @@ Window {
             id: btnLockerRitiroArticolo
             x: 14
             y: 25
-            width: 381
-            height: 266
+            width: 589
+            height: 410
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+            textSecSize: 23
+            textMainSize: 48
             textSec:  "Clicca qui per ritirare un articolo"
             textMain: "RITIRO ARTICOLO"
             onClick: function(){
                 pnlRitiro.visible = true
                 pnlHome.visible = false
+                txtHeaderC2.text = "RITIRO ARTICOLO"
             }
 
         }
@@ -146,9 +162,10 @@ Window {
 
 
 
-    Item {
+    Rectangle {
         id: pnlDeposito
         visible: false
+        color: "#000000"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: pnlHeader.bottom
@@ -189,8 +206,7 @@ Window {
                 anchors.top: element.bottom
                 anchors.topMargin: 10
                 onClick: function(){
-                    pnlDeposito.visible = false;
-                    pnlHome.visible = true;
+                    showHome()
                 }
             }
 
@@ -200,9 +216,10 @@ Window {
 
 
 
-    Item {
+    Rectangle {
         id: pnlRitiro
-        visible: true
+        visible: false
+        color: "#000000"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: pnlHeader.bottom
@@ -235,25 +252,29 @@ Window {
 
             Rectangle {
                 id: pnlEditCodice
-                width: 350
-                height: 56
+                width: 500
+                height: 70
                 color: "#ffffff"
-                radius: 10
-                border.width: 3
+                radius: 18
+                border.color: "#848484"
+                border.width: 7
                 anchors.top: lblInserisci.bottom
                 anchors.topMargin: 10
                 anchors.horizontalCenter: parent.horizontalCenter
 
 
 
-                TextEdit {
+                TextInput {
                     id: edtCodicePrenotazione
+                    visible: true
                     text: qsTr("Codice prenotazione")
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-                    font.pixelSize: 28
+                    font.pixelSize: 32
                     horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignTop
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.bottomMargin: 10
+                    anchors.topMargin: 10
                     anchors.horizontalCenter: parent.horizontalCenter
                     selectByMouse: true
                     font.bold: true
@@ -273,9 +294,10 @@ Window {
 
             Item {
                 id: pnlIstruzioni
-                width: 600
+                width: 800
                 anchors.top: pnlEditCodice.bottom
                 anchors.bottom: parent.bottom
+                anchors.bottomMargin: 40
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: 10
 
@@ -289,23 +311,36 @@ Window {
                     source: "images/qr_code.png"
                     sourceSize.height: 350
                     sourceSize.width: 350
-                    anchors.leftMargin: 70
+                    anchors.leftMargin: 50
                     fillMode: Image.PreserveAspectFit
                 }
 
-                Text {
-                    id: lblIstruzioni
-                    x: 0
-                    y: 88
-                    text: "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Tutte le scritte per la spiegazione ed istruzioni.</p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Istruzioni per il ritiro</span></p>\n<ol style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-size:10pt; font-weight:600;\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Scansionare il codice a barre</li>\n<li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Passo 2</li>\n<li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Passo 3</li></ol>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">In caso di difficoltà fare in altro modo</p></body></html>"
+
+                Rectangle {
+                    id: rectangle
+                    width: 400
+                    height: 350
+                    color: "#848484"
+                    radius: 18
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    font.pixelSize: 17
-                    textFormat: Text.RichText
-                    fontSizeMode: Text.Fit
-                    anchors.rightMargin: 60
-                }
+                    anchors.rightMargin: 50
 
+                    Text {
+                        id: lblIstruzioni
+                        color: "#fdfdfd"
+                        text: "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">ISTRUZIONI PER IL RITIRO</span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:600;\">Istruzioni per il ritiro</span></p>\n<ol style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-size:18pt; font-weight:600;\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:400;\">Scansionare il codice a barre</span></li>\n<li style=\" font-size:18pt;\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Attendere l'apertura del cassetto</li>\n<li style=\" font-size:18pt;\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Prelevare l'articolo e richiudere il cassetto</li>\n<li style=\" font-size:18pt;\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Passo 4</li></ol>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-size:18pt;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">In caso di difficoltà fare in altro modo</span></p></body></html>"
+                        anchors.fill: parent
+                        font.pixelSize: 40
+                        wrapMode: Text.WordWrap
+                        anchors.rightMargin: 30
+                        anchors.leftMargin: 30
+                        anchors.bottomMargin: 30
+                        anchors.topMargin: 30
+                        textFormat: Text.RichText
+                        fontSizeMode: Text.Fit
+                    }
+                }
             }
 
             Grid {
@@ -382,9 +417,7 @@ Window {
                     textColor: "#ff0404"
                     keyName: "Hide"
                     onPressedChanged: function(){
-                        pnlRitiro.visible=false
-                        pnlHome.visible = true
-                        gridKeyboard.visible = false
+                        showHome()
                     }
                 }
 
@@ -424,7 +457,7 @@ Window {
 
 /*##^##
 Designer {
-    D{i:9;invisible:true}D{i:15;invisible:true}D{i:14;invisible:true}
+    D{i:25}
 }
 ##^##*/
 
