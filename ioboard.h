@@ -3,6 +3,8 @@
 
 #include <QtCore/QObject>
 #include <QtWebSockets>
+#include <QtSerialPort/QSerialPortInfo>
+#include <QtSerialPort/QSerialPort>
 
 
 class IoBoard : public QObject
@@ -14,12 +16,15 @@ public:
 
 private Q_SLOTS:
     void onConnected();
+    void onDisconnected();
+
     void onTextMessageReceived(QString message);
     void onBinMessageReceived(QByteArray message);
     void onError(QAbstractSocket::SocketError error);
 
 private:
     QWebSocket _ws;
+    QSerialPort _serial;
 };
 
 

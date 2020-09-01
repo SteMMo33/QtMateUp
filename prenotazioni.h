@@ -20,8 +20,16 @@ public:
 class Prenotazioni
 {
 public:
+    typedef enum _tipo {
+        TIPO_DEPOSITO,
+        TIPO_RITIRO
+    } TipoPrenotazione;
+
+
+public:
     Prenotazioni();
-    int CheckCode(QString code);
+    int CheckCode(TipoPrenotazione tipo, QString code);
+
 };
 
 #endif // PRENOTAZIONI_H

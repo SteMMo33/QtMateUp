@@ -40,11 +40,22 @@ Window {
             Rectangle {
                 id: rectHeaderLeft
                 width: 200
-                color: "#241b1b"
+                color: "#868f96"
                 radius: 15
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color: "#868f96"
+                    }
+
+                    GradientStop {
+                        position: 1
+                        color: "#596164"
+                    }
+                }
                 anchors.topMargin: 10
                 anchors.bottomMargin: 10
                 anchors.leftMargin: 20
@@ -101,11 +112,22 @@ Window {
                 id: rectHeaderRight
                 x: 554
                 width: 200
-                color: "#241b1b"
+                color: "#868f96"
                 radius: 15
                 anchors.right: parent.right
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color: "#868f96"
+                    }
+
+                    GradientStop {
+                        position: 1
+                        color: "#596164"
+                    }
+                }
                 anchors.rightMargin: 20
                 anchors.bottomMargin: 10
                 anchors.topMargin: 10
@@ -455,11 +477,7 @@ Window {
 
 }
 
-/*##^##
-Designer {
-    D{i:25}
-}
-##^##*/
+
 
 
 

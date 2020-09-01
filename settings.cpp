@@ -15,7 +15,7 @@ Settings::Settings()
     db.setUserName("root");
     db.setPassword("amtek");
     bool ok = db.open();
-    qDebug() << ">> open: " << ok;
+    qDebug() << "[Settings] open: " << ok;
 
     if (ok){
         QSqlQuery query("select * from settings;");

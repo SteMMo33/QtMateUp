@@ -10,6 +10,11 @@ Item {
     property alias textMainSize: text1.font.pixelSize
     property alias textSecSize: text2.font.pixelSize
 
+    FontLoader {
+        id: proximaNovaBold
+        source: "qrc:/fonts/ProximaNova-Bold.otf"
+    }
+
     Rectangle {
         id: rectBackground
         width: 200

@@ -35,10 +35,15 @@ int main(int argc, char *argv[])
 
     // Prova accesso settings
     qDebug() << "Farmacia: " << settings["farmacia"];
-    qDebug() << "Cassetti: " << settings["column"];
+    qDebug() << "Cassetti: " << settings["numColumn"];
+    qDebug() << "email: " << settings["emailFarmacia"];
+    qDebug() << "serial: " << settings["serial_port"];
 
     // Cassetti
-    qDebug() << "Cassetti da tabella: " << cassetti.GetNumber();
+    qDebug() << "Cassetti da DB: " << cassetti.GetNumber();
+
+    // Prenotazioni
+    prenotazioni.CheckCode( Prenotazioni::TIPO_DEPOSITO, "99887766");
 
     return app.exec();
 }

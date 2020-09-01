@@ -3,13 +3,19 @@
 
 Prenotazioni::Prenotazioni()
 {
-    qDebug() << "Cstruttore Prenotazioni";
+    qDebug() << "Costruttore Prenotazioni";
 }
 
 
 
-int Prenotazioni::CheckCode(QString code)
+/**
+ * @brief Prenotazioni::CheckCode
+ * @param tipo
+ * @param code
+ * @return
+ */
+int Prenotazioni::CheckCode(TipoPrenotazione tipo, QString code)
 {
-    qDebug() << "check: " << code;
+    qDebug() << "[CheckCode] Tipo: " << tipo << " - Code:" << code;
     return 1;
 };

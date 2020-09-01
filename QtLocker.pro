@@ -1,4 +1,4 @@
-QT += quick sql websockets
+QT += quick sql websockets serialport
 
 CONFIG += c++11
 

@@ -15,10 +15,10 @@ Cassetti::Cassetti() : _number(0)
     db.setUserName("root");
     db.setPassword("amtek");
     bool ok = db.open();
-    qDebug() << ">> open: " << ok;
+    qDebug() << "[Cassetti] open: " << ok;
 
     if (ok){
-        QSqlQuery query("select * from cassetti_details;");
+        QSqlQuery query("select * from cassetti_detail;");
         while (query.next()) {
             Cassetto* cass = new Cassetto();
             cass->isEmpty = query.value("Vuoto").toBool();
@@ -27,6 +27,7 @@ Cassetti::Cassetti() : _number(0)
             ++_number;
         }
         db.close();
+        qDebug() << ">> cassetti:" << _number;
     }
 
 }

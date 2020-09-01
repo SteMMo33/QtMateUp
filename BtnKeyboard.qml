@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    id: element
+    id: button
     width: 120
     height: 120
     property alias keyName: keyName.text
@@ -31,6 +31,7 @@ Item {
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
+            font.family: "Proxima Nova Rg"
             anchors.fill: parent
             font.pixelSize: 27
         }
