@@ -6,6 +6,7 @@
  * @brief IoBoard::IoBoard
  * Costruttore oggetto IoBoard che comunica via websocket
  */
+//! [constructor]
 IoBoard::IoBoard(QObject* parent) : QObject(parent)
 {
     qDebug() << "Costruttore IoBoard";
@@ -14,6 +15,8 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent)
 
     QObject::connect( &_ws, &QWebSocket::connected, this, &IoBoard::onConnected);
     QObject::connect( &_ws, &QWebSocket::disconnected, this, &IoBoard::onDisconnected);
+    QObject::connect( &_ws, &QWebSocket::destroyed, this, &IoBoard::onDestroyed);
+    QObject::connect( &_ws, &QWebSocket::stateChanged, this, &IoBoard::onStateChanged);
 
     connect( &_ws, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error),
         [=](QAbstractSocket::SocketError error){
@@ -22,14 +25,15 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent)
     );
 
     QUrl url ("ws://localhost:7681");
-    url.setHost("10.191.40.216");
+    // url.setHost("10.191.40.216");
     qDebug() << "[IoBoard] url: " << url.toString() << " - Scheme: " << url.scheme() << " - Host: " << url.host() << " - Port: " << url.port();
     qDebug() << "[IoBoard] state:" << _ws.state();
     _ws.open(url);
     qDebug() << "[IoBoard] state:" << _ws.state();
 
-    // -- Prova con la porta seriale
+
 #ifdef SERIALE
+    // -- Prova con la porta seriale
     const auto infos = QSerialPortInfo::availablePorts();
     for (const QSerialPortInfo &info : infos)
         qDebug() << info.portName();
@@ -76,11 +80,20 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent)
     }
 #endif
 }
+//! [constructor]
+
+
+IoBoard::~IoBoard()
+{
+    qDebug() << "[IoBoard] Des'ctor";
+    _ws.close();
+};
 
 
 /**
  * @brief IoBoard::onConnected
  */
+//! [onConnected]
 void IoBoard::onConnected()
 {
     qDebug() << "[IoBoard] WebSocket connected";
@@ -94,6 +107,7 @@ void IoBoard::onConnected()
     QByteArray fwCmd(cmd);
     _ws.sendBinaryMessage(fwCmd);
 }
+//! [onConnected]
 
 
 /**
@@ -134,5 +148,20 @@ void IoBoard::onBinMessageReceived(QByteArray message)
 void IoBoard::onError(QAbstractSocket::SocketError error)
 {
     qDebug() << "[IoBoard] Error: " << error;
+};
+
+
+/**
+ * @brief IoBoard::onDestroyed
+ */
+void IoBoard::onDestroyed()
+{
+    qDebug() << "[IoBoard] Destroyed";
+};
+
+
+void IoBoard::onStateChanged(QAbstractSocket::SocketState state)
+{
+    qDebug() << "[IoBoard] StateChanged:" << state;
 };
 

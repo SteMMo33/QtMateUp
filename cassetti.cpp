@@ -27,7 +27,7 @@ Cassetti::Cassetti() : _number(0)
             ++_number;
         }
         db.close();
-        qDebug() << ">> cassetti:" << _number;
+        db.removeDatabase("MYSQL");
     }
 
 }

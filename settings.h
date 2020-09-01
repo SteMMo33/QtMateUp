@@ -6,8 +6,10 @@
 #include <QtSql/QSqlQuery>
 
 
-class Settings
+class Settings : public QObject
 {
+    Q_OBJECT
+
 public:
     Settings();
     QString operator[](const QString &key){ return _settings[key]; };

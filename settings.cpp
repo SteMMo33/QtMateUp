@@ -27,8 +27,10 @@ Settings::Settings()
             QString strCleanValue = query.value("value").toString();
             if (strCleanValue.startsWith("'")) strCleanValue.remove(0,1);
             if (strCleanValue.endsWith("'")) strCleanValue.remove( strCleanValue.length()-1, 1);
+
             _settings.insert( query.value("name").toString(), strCleanValue);
         }
         db.close();
+        db.removeDatabase("QMYSQL");
     }
 }

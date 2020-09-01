@@ -13,10 +13,13 @@ class IoBoard : public QObject
 
 public:
     IoBoard(QObject* parent);
+    virtual ~IoBoard();
 
 private Q_SLOTS:
     void onConnected();
     void onDisconnected();
+    void onDestroyed();
+    void onStateChanged(QAbstractSocket::SocketState state);
 
     void onTextMessageReceived(QString message);
     void onBinMessageReceived(QByteArray message);

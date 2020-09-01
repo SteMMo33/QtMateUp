@@ -29,6 +29,14 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
+    // Oggetti pubblicati verso QML
+    qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
+
+    qmlRegisterType<Prenotazioni>("com.amtek.locker", 1, 0, "Prenotazioni");
+
+    qRegisterMetaType<TipoPrenotazione>("TipoPrenotazione");
+    qmlRegisterUncreatableType<TipoPrenotazioneClass>("com.amtek.locker", 1, 0, "TipoPrenotazione", "Not creatable as it is an enum type");
+
     engine.load(url);
 
     qDebug() << "Platform: " << app.platformName();
@@ -43,7 +51,7 @@ int main(int argc, char *argv[])
     qDebug() << "Cassetti da DB: " << cassetti.GetNumber();
 
     // Prenotazioni
-    prenotazioni.CheckCode( Prenotazioni::TIPO_DEPOSITO, "99887766");
+    prenotazioni.checkCode( TipoPrenotazione::TIPO_DEPOSITO, "99887766");
 
     return app.exec();
 }

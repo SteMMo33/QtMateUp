@@ -14,8 +14,9 @@ Prenotazioni::Prenotazioni()
  * @param code
  * @return
  */
-int Prenotazioni::CheckCode(TipoPrenotazione tipo, QString code)
+int Prenotazioni::checkCode(TipoPrenotazione tipo, QString code)
 {
-    qDebug() << "[CheckCode] Tipo: " << tipo << " - Code:" << code;
+    qDebug() << "[checkCode] Tipo: " << tipo << " - Code:" << code;
+    // qDebug() << "[checkCode] Tipo: - Code:" << code;
     return 1;
 };

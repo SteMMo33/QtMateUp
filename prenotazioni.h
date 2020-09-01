@@ -16,19 +16,30 @@ public:
 };
 
 
-
-class Prenotazioni
+class TipoPrenotazioneClass: public QObject
 {
+    Q_GADGET
+private:
+    explicit TipoPrenotazioneClass();
 public:
-    typedef enum _tipo {
+    enum Value {
         TIPO_DEPOSITO,
         TIPO_RITIRO
-    } TipoPrenotazione;
+    };
+    Q_ENUM(Value)
 
+};
+
+typedef TipoPrenotazioneClass::Value    TipoPrenotazione;
+
+
+class Prenotazioni : public QObject
+{
+    Q_OBJECT
 
 public:
     Prenotazioni();
-    int CheckCode(TipoPrenotazione tipo, QString code);
+    Q_INVOKABLE int checkCode(TipoPrenotazione tipo, QString code);
 
 };
 

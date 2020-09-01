@@ -1,5 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
+import com.amtek.locker 1.0
+
 
 Window {
     id: window
@@ -18,10 +20,18 @@ Window {
     function showHome(){
         pnlDeposito.visible = false
         pnlRitiro.visible = false
+        btnLockerDeposito.visible = true
         txtHeaderC2.text = "SELEZIONA IL SERVIZIO"
         pnlHome.visible = true
     }
 
+    Settings {
+        id: settings
+    }
+
+    Prenotazioni {
+        id: prenotazioni
+    }
 
     Rectangle {
         id: pnlHeader
@@ -145,6 +155,7 @@ Window {
                     onClick: function(){
                         pnlDeposito.visible=true
                         pnlHome.visible=false
+                        pnlRitiro.visible = false
                         txtHeaderC2.text = "DEPOSITO ARTICOLO"
                     }
                 }
@@ -176,7 +187,14 @@ Window {
             onClick: function(){
                 pnlRitiro.visible = true
                 pnlHome.visible = false
+                btnLockerDeposito.visible = false
+
                 txtHeaderC2.text = "RITIRO ARTICOLO"
+
+                console.log(settings)
+                console.log(settings['emailFarmacia'])
+
+                prenotazioni.checkCode( TipoPrenotazione.TIPO_RITIRO, "123456789")
             }
 
         }
@@ -201,9 +219,6 @@ Window {
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             visible: true
-            z: -8
-
-
             Text {
                 id: element
                 height: 69
@@ -318,8 +333,8 @@ Window {
                 id: pnlIstruzioni
                 width: 800
                 anchors.top: pnlEditCodice.bottom
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 40
+                anchors.bottom: btnBackHome.top
+                anchors.bottomMargin: 5
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: 10
 
@@ -340,13 +355,13 @@ Window {
 
                 Rectangle {
                     id: rectangle
-                    width: 400
+                    width: 480
                     height: 350
                     color: "#848484"
                     radius: 18
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    anchors.rightMargin: 50
+                    anchors.rightMargin: 45
 
                     Text {
                         id: lblIstruzioni
@@ -355,8 +370,8 @@ Window {
                         anchors.fill: parent
                         font.pixelSize: 40
                         wrapMode: Text.WordWrap
-                        anchors.rightMargin: 30
-                        anchors.leftMargin: 30
+                        anchors.rightMargin: 25
+                        anchors.leftMargin: 25
                         anchors.bottomMargin: 30
                         anchors.topMargin: 30
                         textFormat: Text.RichText
@@ -367,16 +382,15 @@ Window {
 
             Grid {
                 id: gridKeyboard
-                y: 157
                 width: 450
                 height: 483
                 spacing: 1
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 10
+                anchors.topMargin: 10
                 rows: 4
                 columns: 3
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: false
+                anchors.top: pnlEditCodice.bottom
 
                 BtnKeyboard {
                     id: btnKey1
@@ -464,7 +478,19 @@ Window {
 
             }
 
-
+            BtnLocker {
+                id: btnBackHome
+                x: 0
+                y: 547
+                width: 714
+                height: 98
+                anchors.bottom: parent.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottomMargin: 15
+                textMain: "TORNA ALLA PAGINA INIZIALE"
+                textSec: ""
+                onClick: showHome()
+            }
 
 
 
@@ -473,8 +499,6 @@ Window {
 
 
 
-
-
 }
 
 
@@ -484,58 +508,8 @@ Window {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*##^## Designer {
-    D{i:9;invisible:true}D{i:14;anchors_height:200}
+/*##^##
+Designer {
+    D{i:9;invisible:true}D{i:14}D{i:34}
 }
- ##^##*/
+##^##*/
