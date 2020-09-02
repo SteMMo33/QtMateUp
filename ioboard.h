@@ -15,7 +15,8 @@ public:
     IoBoard(QObject* parent);
     virtual ~IoBoard();
 
-    int OpenLock(int nLock);
+    Q_INVOKABLE int apriCassetto(int nCassetto);
+    Q_INVOKABLE int leggiCassetto(int nCassetto);
 
 private Q_SLOTS:
     void onConnected();

@@ -4,6 +4,7 @@ import com.amtek.locker 1.0
 
 
 Window {
+
     id: window
     width: 900
     height: 800
@@ -25,6 +26,10 @@ Window {
         pnlHome.visible = true
     }
 
+    Loader {
+        id: ld
+    }
+
     Settings {
         id: settings
     }
@@ -32,6 +37,7 @@ Window {
     Prenotazioni {
         id: prenotazioni
     }
+
 
     Rectangle {
         id: pnlHeader
@@ -69,6 +75,19 @@ Window {
                 anchors.topMargin: 10
                 anchors.bottomMargin: 10
                 anchors.leftMargin: 20
+
+                property variant win;
+
+                MouseArea {
+                    id: mouseArea
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("Open pageAssistenza")
+                        ld.source = "pageAssistenza.qml"
+                        //window.visible = false
+                    }
+                }
+
             }
 
             Rectangle {
@@ -498,18 +517,9 @@ Window {
     }
 
 
-
 }
 
 
 
 
 
-
-
-
-/*##^##
-Designer {
-    D{i:9;invisible:true}D{i:14}D{i:34}
-}
-##^##*/

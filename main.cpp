@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Prenotazioni>("com.amtek.locker", 1, 0, "Prenotazioni");
 
+    qmlRegisterType<IoBoard>("com.amtek.locker", 1, 0, "IoBoard");
+
     qRegisterMetaType<TipoPrenotazione>("TipoPrenotazione");
     qmlRegisterUncreatableType<TipoPrenotazioneClass>("com.amtek.locker", 1, 0, "TipoPrenotazione", "Not creatable as it is an enum type");
 
