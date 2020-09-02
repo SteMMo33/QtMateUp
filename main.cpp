@@ -9,7 +9,7 @@
 
 
 static Settings settings;
-static IoBoard ioboard(NULL);
+// static IoBoard ioboard(NULL);    // Qui non funziona !
 static Cassetti cassetti;
 static Prenotazioni prenotazioni;
 
@@ -28,6 +28,9 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
+    //
+    IoBoard ioboard(NULL);
 
     // Oggetti pubblicati verso QML
     qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
@@ -53,5 +56,6 @@ int main(int argc, char *argv[])
     // Prenotazioni
     prenotazioni.checkCode( TipoPrenotazione::TIPO_DEPOSITO, "99887766");
 
+	
     return app.exec();
 }

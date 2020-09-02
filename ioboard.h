@@ -15,6 +15,8 @@ public:
     IoBoard(QObject* parent);
     virtual ~IoBoard();
 
+    int OpenLock(int nLock);
+
 private Q_SLOTS:
     void onConnected();
     void onDisconnected();

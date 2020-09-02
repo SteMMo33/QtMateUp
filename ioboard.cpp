@@ -1,5 +1,15 @@
+/*!
+    @author SM
+
+    @abstract
+  Protocollo per la porta seriale Protocollo PC - scheda CPU Locker 80 vers. 1.00.doc
+
+!*/
+
 #include "ioboard.h"
 
+
+#define SERIALE
 
 
 /**
@@ -25,7 +35,8 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent)
     );
 
     QUrl url ("ws://localhost:7681");
-    // url.setHost("10.191.40.216");
+    url.setHost("10.191.40.216");
+
     qDebug() << "[IoBoard] url: " << url.toString() << " - Scheme: " << url.scheme() << " - Host: " << url.host() << " - Port: " << url.port();
     qDebug() << "[IoBoard] state:" << _ws.state();
     _ws.open(url);
@@ -57,8 +68,10 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent)
         qDebug() << "[] SendCmd";
         char cmd[] = { 0x00, 0x00, 0x7F };
         char fwCmd[] = { 0x02, 0x00, 0x7D };
+        char cmdLista01[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x01, 0x41};
+        char cmdLista02[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x02, 0x42};
 
-        int n = _serial.write(cmd);
+        _serial.write(cmdLista01);
 
         if (_serial.waitForBytesWritten(waitTimeout)) {
             qDebug() << "[] Sent..";
@@ -101,11 +114,8 @@ void IoBoard::onConnected()
     QObject::connect( &_ws, &QWebSocket::textMessageReceived, this, &IoBoard::onTextMessageReceived);
     QObject::connect( &_ws, &QWebSocket::binaryMessageReceived, this, &IoBoard::onBinMessageReceived);
 
-    // _ws.sendTextMessage(QStringLiteral("Hello, world!"));
-
-    char cmd[] = { 0x00, 0x00, 0x7F};
-    QByteArray fwCmd(cmd);
-    _ws.sendBinaryMessage(fwCmd);
+    // _ws.sendTextMessage(QStringLiteral("{ \"LetturaCassetto\": 1}"));
+    _ws.sendTextMessage(QStringLiteral("startKiosk"));
 }
 //! [onConnected]
 
@@ -126,7 +136,6 @@ void IoBoard::onDisconnected()
 void IoBoard::onTextMessageReceived(QString message)
  {
     qDebug() << "[IoBoard] Message received:" << message;
-    _ws.close();
  }
 
 
@@ -165,3 +174,10 @@ void IoBoard::onStateChanged(QAbstractSocket::SocketState state)
     qDebug() << "[IoBoard] StateChanged:" << state;
 };
 
+
+int IoBoard::OpenLock(int nLock)
+{
+    qDebug() << "[IoBoard] OpenLock:" << nLock;
+    _ws.sendTextMessage(QString("{\"AperCassetto\":%1}").arg(nLock));
+    return 1;
+};
