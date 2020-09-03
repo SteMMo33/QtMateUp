@@ -12,11 +12,21 @@ class IoBoard : public QObject
     Q_OBJECT
 
 public:
-    IoBoard(QObject* parent);
+    typedef enum connectionType {
+        CONNECTION_WS,
+        CONNECTION_SERIAL
+    } ConnectionType;
+
+
+
+    IoBoard(QObject* parent = nullptr);
     virtual ~IoBoard();
 
     Q_INVOKABLE int apriCassetto(int nCassetto);
     Q_INVOKABLE int leggiCassetto(int nCassetto);
+
+    void setType(ConnectionType type) { _type = type;};
+    int sendSerial(char* buffer, int size);
 
 private Q_SLOTS:
     void onConnected();
@@ -31,6 +41,7 @@ private Q_SLOTS:
 private:
     QWebSocket _ws;
     QSerialPort _serial;
+    ConnectionType _type;
 };
 
 

@@ -21,6 +21,7 @@ Window {
     function showHome(){
         pnlDeposito.visible = false
         pnlRitiro.visible = false
+        pnlPagamento.visible = false
         btnLockerDeposito.visible = true
         txtHeaderC2.text = "SELEZIONA IL SERVIZIO"
         pnlHome.visible = true
@@ -36,6 +37,10 @@ Window {
 
     Prenotazioni {
         id: prenotazioni
+    }
+
+    IoBoard {
+        id: ioBoard
     }
 
 
@@ -85,6 +90,9 @@ Window {
                         console.log("Open pageAssistenza")
                         ld.source = "pageAssistenza.qml"
                         //window.visible = false
+
+                        ioBoard.apriCassetto(2)
+                        ioBoard.leggiCassetto(2)
                     }
                 }
 
@@ -513,6 +521,62 @@ Window {
 
 
 
+        }
+    }
+
+    Rectangle {
+        id: pnlPagamento
+        visible: true
+        color: "#000000"
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: pnlHeader.bottom
+        anchors.bottom: parent.bottom
+        Rectangle {
+            id: pnlPagamentoInterno
+            width: 470
+            visible: true
+            color: "#00000000"
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            Text {
+                id: txtScritta
+                height: 69
+                visible: true
+                color: "#f1ed02"
+                text: qsTr("C'è da pagare")
+                anchors.left: parent.left
+                anchors.right: parent.right
+                font.pixelSize: 21
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                anchors.leftMargin: 0
+                fontSizeMode: Text.VerticalFit
+            }
+
+            BtnLocker {
+                id: btnPagaConPos
+                width: 254
+                height: 190
+                anchors.top: txtScritta.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                textMain: "Paga con POS"
+                textSec: "Clicca per pagare con il POS"
+                anchors.topMargin: 10
+            }
+
+            BtnLocker {
+                id: btnPagaRitorna
+                width: 366
+                height: 73
+                anchors.top: btnPagaConPos.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                textMain: "RITORNA ALLA PAGINA"
+                anchors.topMargin: 137
+                textSec: ""
+                onClick: showHome()
+            }
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 

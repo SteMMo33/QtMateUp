@@ -17,16 +17,18 @@
  * Costruttore oggetto IoBoard che comunica via websocket
  */
 //! [constructor]
-IoBoard::IoBoard(QObject* parent) : QObject(parent)
+IoBoard::IoBoard(QObject* parent) : QObject(parent), _type(CONNECTION_SERIAL)
 {
     qDebug() << "Costruttore IoBoard";
 
-    // -- Prova con websocket
+    if (_type == CONNECTION_WS) {
 
-    QObject::connect( &_ws, &QWebSocket::connected, this, &IoBoard::onConnected);
-    QObject::connect( &_ws, &QWebSocket::disconnected, this, &IoBoard::onDisconnected);
-    QObject::connect( &_ws, &QWebSocket::destroyed, this, &IoBoard::onDestroyed);
-    QObject::connect( &_ws, &QWebSocket::stateChanged, this, &IoBoard::onStateChanged);
+        // -- Collegamento con websocket
+
+        QObject::connect( &_ws, &QWebSocket::connected, this, &IoBoard::onConnected);
+        QObject::connect( &_ws, &QWebSocket::disconnected, this, &IoBoard::onDisconnected);
+        QObject::connect( &_ws, &QWebSocket::destroyed, this, &IoBoard::onDestroyed);
+        QObject::connect( &_ws, &QWebSocket::stateChanged, this, &IoBoard::onStateChanged);
 
     connect( &_ws, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error),
         [=](QAbstractSocket::SocketError error){
@@ -42,12 +44,13 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent)
     _ws.open(url);
     qDebug() << "[IoBoard] state:" << _ws.state();
 
+    }
+    else {
 
-#ifdef SERIALE
-    // -- Prova con la porta seriale
-    const auto infos = QSerialPortInfo::availablePorts();
-    for (const QSerialPortInfo &info : infos)
-        qDebug() << info.portName();
+        // -- Collegamento con la porta seriale
+        const auto infos = QSerialPortInfo::availablePorts();
+        for (const QSerialPortInfo &info : infos)
+            qDebug() << info.portName();
 
     QString portName = "ttyS1";
     int waitTimeout = 5000;
@@ -89,17 +92,22 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent)
         else {
             qDebug() << "[] TO Write";
         }
-        _serial.close();
     }
-#endif
+
+    } // if SERIAL
 }
 //! [constructor]
+
 
 
 IoBoard::~IoBoard()
 {
     qDebug() << "[IoBoard] Des'ctor";
-    _ws.close();
+
+    if (_type == CONNECTION_WS)
+        _ws.close();
+    else
+        _serial.close();
 };
 
 
@@ -175,9 +183,77 @@ void IoBoard::onStateChanged(QAbstractSocket::SocketState state)
 };
 
 
-int IoBoard::OpenLock(int nLock)
+
+/**
+ * @brief IoBoard::apriCassetto
+ * @param nCassetto
+ * @return
+ */
+int IoBoard::apriCassetto(int nCassetto)
 {
-    qDebug() << "[IoBoard] OpenLock:" << nLock;
-    _ws.sendTextMessage(QString("{\"AperCassetto\":%1}").arg(nLock));
+    qDebug() << "[IoBoard] apriCassetto:" << nCassetto;
+
+    if (_type==CONNECTION_WS){
+        _ws.sendTextMessage(QString("{\"AperCassetto\":%1}").arg(nCassetto));
+    }
+    else {
+        char cmd[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x02, 0x42 };
+        sendSerial(cmd, 7);
+    }
     return 1;
 };
+
+
+
+/**
+ * @brief IoBoard::leggiCassetto
+ * @param nCassetto
+ * @return
+ */
+int IoBoard::leggiCassetto(int nCassetto)
+{
+    qDebug() << "[IoBoard] leggiCassetto:" << nCassetto;
+
+    if (_type==CONNECTION_WS){
+        qDebug() << "ToDo";
+    }
+    else {
+        char cmd[] = { 0x00 };
+        sendSerial(cmd, 7);
+    }
+    return 1;
+};
+
+
+
+/**
+ * @brief IoBoard::sendSerial
+ * @param buffer
+ * @param size
+ * @return
+ */
+int IoBoard::sendSerial(char* buffer, int size)
+{
+    int waitTimeout = 5000;
+
+    qDebug() << "TX:" << buffer;
+    _serial.write(buffer, size);
+
+    if (_serial.waitForBytesWritten(waitTimeout)) {
+        qDebug() << "[] Sent..";
+        // read response
+        if (_serial.waitForReadyRead(waitTimeout*3)) {
+            QByteArray responseData = _serial.readAll();
+            while (_serial.waitForReadyRead(10))
+                responseData += _serial.readAll();
+            qDebug() << "[] Read:" << responseData;
+        }
+        else {
+            qDebug() << "[] TO Read";
+        }
+    }
+    else {
+        qDebug() << "[] TO Write";
+    }
+    return 1;
+}

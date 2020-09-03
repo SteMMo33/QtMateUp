@@ -8,7 +8,7 @@
 #include "prenotazioni.h"
 
 
-static Settings settings;
+// static Settings settings;
 // static IoBoard ioboard(NULL);    // Qui non funziona !
 static Cassetti cassetti;
 static Prenotazioni prenotazioni;
@@ -29,8 +29,12 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
+
     //
-    IoBoard ioboard(NULL);
+    IoBoard ioboard;
+    ioboard.setType((IoBoard::CONNECTION_SERIAL));
+
+    Settings settings;
 
     // Oggetti pubblicati verso QML
     qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
