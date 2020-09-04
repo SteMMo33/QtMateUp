@@ -8,6 +8,7 @@ CONFIG += c++11
 
 SOURCES += \
     cassetti.cpp \
+    datasource.cpp \
     main.cpp \
     prenotazioni.cpp \
     settings.cpp \
@@ -30,6 +31,7 @@ DISTFILES +=
 
 HEADERS += \
     cassetti.h \
+    datasource.h \
     prenotazioni.h \
     settings.h \
     ioboard.h

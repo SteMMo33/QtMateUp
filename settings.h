@@ -6,13 +6,15 @@
 #include <QtSql/QSqlQuery>
 
 
-class Settings : public QObject
+class Settings : QObject
 {
     Q_OBJECT
 
 public:
     Settings();
     QString operator[](const QString &key){ return _settings[key]; };
+    void insert(QString &key, QString &value);
+    QString get(QString key){ return _settings[key]; };
 
 private:
     QMap<QString, QString> _settings;

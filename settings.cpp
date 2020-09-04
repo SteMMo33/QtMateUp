@@ -9,6 +9,7 @@ Settings::Settings()
 {
     qDebug() << "Costruttore Settings";
 
+    /*
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("localhost");
     db.setDatabaseName("kiosk");
@@ -33,4 +34,11 @@ Settings::Settings()
         db.close();
         db.removeDatabase("QMYSQL");
     }
+    */
+}
+
+
+void Settings::insert(QString &key, QString &value)
+{
+    _settings.insert( key, value);
 }

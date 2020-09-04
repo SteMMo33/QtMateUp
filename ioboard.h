@@ -10,6 +10,7 @@
 class IoBoard : public QObject
 {
     Q_OBJECT
+    // Q_PROPERTY(QString var READ getVar WRITE setVar NOTIFY varChanged)
 
 public:
     typedef enum connectionType {
@@ -26,7 +27,7 @@ public:
     Q_INVOKABLE int leggiCassetto(int nCassetto);
 
     void setType(ConnectionType type) { _type = type;};
-    int sendSerial(char* buffer, int size);
+    int sendSerial( unsigned char* buffer, int size);
 
 private Q_SLOTS:
     void onConnected();
@@ -42,6 +43,8 @@ private:
     QWebSocket _ws;
     QSerialPort _serial;
     ConnectionType _type;
+
+    unsigned char crc( unsigned char* buffer, int size);
 };
 
 

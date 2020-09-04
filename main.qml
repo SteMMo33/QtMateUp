@@ -31,13 +31,17 @@ Window {
         id: ld
     }
 
+    /*
     Settings {
         id: settings
     }
+    */
 
+    /*
     Prenotazioni {
         id: prenotazioni
     }
+    */
 
     IoBoard {
         id: ioBoard
@@ -218,8 +222,8 @@ Window {
 
                 txtHeaderC2.text = "RITIRO ARTICOLO"
 
-                console.log(settings)
-                console.log(settings['emailFarmacia'])
+                //console.log(settings)
+                //console.log(settings['emailFarmacia'])
 
                 prenotazioni.checkCode( TipoPrenotazione.TIPO_RITIRO, "123456789")
             }
@@ -241,11 +245,11 @@ Window {
         Rectangle {
             id: pnlDepositoInterno
             width: 470
-            color: "#ffffff"
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             visible: true
+            color: "#00000000"
             Text {
                 id: element
                 height: 69
@@ -262,16 +266,41 @@ Window {
 
             BtnLocker {
                 id: btnLockerForm
-                width: 254
-                height: 190
-                textSec: "SecForm"
-                textMain: "PriForm"
+                width: 454
+                height: 72
+                textSec: ""
+                textMain: "RITORNA ALLA PAGINA"
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: element.bottom
                 anchors.topMargin: 10
                 onClick: function(){
                     showHome()
                 }
+            }
+
+            BtnLocker {
+                id: btnLockerC1
+                x: 48
+                y: 172
+                width: 235
+                height: 76
+                anchors.horizontalCenter: parent.horizontalCenter
+                textMain: "Cassetto 1"
+                textSec: ""
+                onClick: ioBoard.apriCassetto(1)
+            }
+
+            BtnLocker {
+                id: btnLockerC2
+                x: 51
+                y: 264
+                width: 235
+                height: 76
+                anchors.horizontalCenterOffset: 0
+                textMain: "Cassetto 2"
+                textSec: ""
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClick: ioBoard.apriCassetto(2)
             }
 
         }
@@ -526,7 +555,7 @@ Window {
 
     Rectangle {
         id: pnlPagamento
-        visible: true
+        visible: false
         color: "#000000"
         anchors.left: parent.left
         anchors.right: parent.right

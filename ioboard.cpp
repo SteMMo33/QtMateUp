@@ -19,7 +19,7 @@
 //! [constructor]
 IoBoard::IoBoard(QObject* parent) : QObject(parent), _type(CONNECTION_SERIAL)
 {
-    qDebug() << "Costruttore IoBoard";
+    qDebug() << "Costruttore IoBoard" << this;
 
     if (_type == CONNECTION_WS) {
 
@@ -69,12 +69,13 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent), _type(CONNECTION_SERIAL)
         _serial.setStopBits(QSerialPort::OneStop);
 
         qDebug() << "[] SendCmd";
-        char cmd[] = { 0x00, 0x00, 0x7F };
-        char fwCmd[] = { 0x02, 0x00, 0x7D };
-        char cmdLista01[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x01, 0x41};
-        char cmdLista02[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x02, 0x42};
+        // char cmd[] = { 0x00, 0x00, 0x7F };
+        // char fwCmd[] = { 0x02, 0x00, 0x7D };
+        // char cmdLista01[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x01, 0x41};
+        // char cmdLista02[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x02, 0x42};
+        char cmd[] = { 0x03, 0x01, 0x01, 0x7C };
 
-        _serial.write(cmdLista01);
+        _serial.write(cmd);
 
         if (_serial.waitForBytesWritten(waitTimeout)) {
             qDebug() << "[] Sent..";
@@ -102,7 +103,7 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent), _type(CONNECTION_SERIAL)
 
 IoBoard::~IoBoard()
 {
-    qDebug() << "[IoBoard] Des'ctor";
+    qDebug() << "[IoBoard] Des'ctor" << this;
 
     if (_type == CONNECTION_WS)
         _ws.close();
@@ -184,6 +185,15 @@ void IoBoard::onStateChanged(QAbstractSocket::SocketState state)
 
 
 
+unsigned char IoBoard::crc( unsigned char* buffer, int size)
+{
+    unsigned char crc = 0x7F;
+    int i = 0;
+    while(i<size)   crc ^= buffer[i++];
+    return crc;
+}
+
+
 /**
  * @brief IoBoard::apriCassetto
  * @param nCassetto
@@ -197,7 +207,8 @@ int IoBoard::apriCassetto(int nCassetto)
         _ws.sendTextMessage(QString("{\"AperCassetto\":%1}").arg(nCassetto));
     }
     else {
-        char cmd[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x02, 0x42 };
+        unsigned char cmd[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x02, 0x42 };
+        cmd[6] = crc( cmd, 6);
         sendSerial(cmd, 7);
     }
     return 1;
@@ -218,8 +229,10 @@ int IoBoard::leggiCassetto(int nCassetto)
         qDebug() << "ToDo";
     }
     else {
-        char cmd[] = { 0x00 };
-        sendSerial(cmd, 7);
+        unsigned char cmd[] = { 0x3C, 0x01, 0xFF, 0xFF };
+        cmd[2] = (char)nCassetto;
+        cmd[3] = crc( cmd, 3);
+        sendSerial(cmd, 4);
     }
     return 1;
 };
@@ -232,21 +245,21 @@ int IoBoard::leggiCassetto(int nCassetto)
  * @param size
  * @return
  */
-int IoBoard::sendSerial(char* buffer, int size)
+int IoBoard::sendSerial(unsigned char* buffer, int size)
 {
     int waitTimeout = 5000;
 
-    qDebug() << "TX:" << buffer;
-    _serial.write(buffer, size);
+    qDebug() << "TX:" << QByteArray((char*)buffer).toHex() << this;
+    _serial.write((char*)buffer, size);
 
     if (_serial.waitForBytesWritten(waitTimeout)) {
-        qDebug() << "[] Sent..";
+        qDebug() << "[] Sent.." << this;
         // read response
         if (_serial.waitForReadyRead(waitTimeout*3)) {
             QByteArray responseData = _serial.readAll();
             while (_serial.waitForReadyRead(10))
                 responseData += _serial.readAll();
-            qDebug() << "[] Read:" << responseData;
+            qDebug() << "[] Read:" << responseData.toHex();
         }
         else {
             qDebug() << "[] TO Read";

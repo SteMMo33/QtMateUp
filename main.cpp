@@ -6,12 +6,15 @@
 #include "ioboard.h"
 #include "cassetti.h"
 #include "prenotazioni.h"
+#include "datasource.h"
 
 
 // static Settings settings;
 // static IoBoard ioboard(NULL);    // Qui non funziona !
-static Cassetti cassetti;
-static Prenotazioni prenotazioni;
+//Cassetti cassetti;
+//Prenotazioni prenotazioni;
+DataSource dataSource;
+
 
 
 int main(int argc, char *argv[])
@@ -34,12 +37,14 @@ int main(int argc, char *argv[])
     IoBoard ioboard;
     ioboard.setType((IoBoard::CONNECTION_SERIAL));
 
-    Settings settings;
+
+    DataSource dataSource;
+
+//    Settings* settings = dataSource.getSettings();
 
     // Oggetti pubblicati verso QML
-    qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
-
-    qmlRegisterType<Prenotazioni>("com.amtek.locker", 1, 0, "Prenotazioni");
+    //qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
+    // qmlRegisterType<Prenotazioni>("com.amtek.locker", 1, 0, "Prenotazioni");
 
     qmlRegisterType<IoBoard>("com.amtek.locker", 1, 0, "IoBoard");
 
@@ -51,17 +56,18 @@ int main(int argc, char *argv[])
     qDebug() << "Platform: " << app.platformName();
 
     // Prova accesso settings
-    qDebug() << "Farmacia: " << settings["farmacia"];
-    qDebug() << "Cassetti: " << settings["numColumn"];
-    qDebug() << "email: " << settings["emailFarmacia"];
-    qDebug() << "serial: " << settings["serial_port"];
+    /*
+    qDebug() << "Farmacia: " << settings->get("farmacia");
+    qDebug() << "Cassetti: " << settings->get("numColumn");
+    qDebug() << "email: " << settings->get("emailFarmacia");
+    qDebug() << "serial: " << settings->get("serial_port");
+*/
 
     // Cassetti
-    qDebug() << "Cassetti da DB: " << cassetti.GetNumber();
+    //qDebug() << "Cassetti da DB: " << cassetti.GetNumber();
 
     // Prenotazioni
-    prenotazioni.checkCode( TipoPrenotazione::TIPO_DEPOSITO, "99887766");
-
+    //prenotazioni.checkCode( TipoPrenotazione::TIPO_DEPOSITO, "99887766");
 	
     return app.exec();
 }
