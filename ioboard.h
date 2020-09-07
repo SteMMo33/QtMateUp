@@ -18,7 +18,11 @@ public:
         CONNECTION_SERIAL
     } ConnectionType;
 
-
+#define ACK     0x06
+#define DLE     0x10
+#define NACK    0x15
+#define ETB     0x17
+#define REP     0x5A
 
     IoBoard(QObject* parent = nullptr);
     virtual ~IoBoard();
@@ -43,6 +47,7 @@ private:
     QWebSocket _ws;
     QSerialPort _serial;
     ConnectionType _type;
+    QByteArray _response;
 
     unsigned char crc( unsigned char* buffer, int size);
 };

@@ -14,7 +14,7 @@ public:
 
     Cassetti* getCassetti();
     Prenotazioni* getPrenotazioni();
-    Settings* getSettings();
+    MachineSettings* getSettings();
 
 private:
     QSqlDatabase db;

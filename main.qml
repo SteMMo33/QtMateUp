@@ -12,6 +12,9 @@ Window {
     visibility: Window.FullScreen
     color: "black"
 
+    // Da C++
+    //property alias ioboard: ioboard
+
     property alias edtCodicePrenotazione: edtCodicePrenotazione
     title: qsTr("QtLocker")
 
@@ -43,9 +46,10 @@ Window {
     }
     */
 
+    /* Instanzia un nuovo oggetto
     IoBoard {
         id: ioBoard
-    }
+    } */
 
 
     Rectangle {

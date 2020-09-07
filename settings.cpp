@@ -2,10 +2,10 @@
 #include "settings.h"
 
 /**
- * @brief Settings::Settings
+ * @brief MachineSettings::MachineSettings
  * Costruttore che carica il contenuto della tabella 'settings' in memoria
  */
-Settings::Settings()
+MachineSettings::MachineSettings()
 {
     qDebug() << "Costruttore Settings";
 
@@ -38,7 +38,7 @@ Settings::Settings()
 }
 
 
-void Settings::insert(QString &key, QString &value)
+void MachineSettings::insert(QString &key, QString &value)
 {
     _settings.insert( key, value);
 }

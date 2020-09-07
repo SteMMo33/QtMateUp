@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
+#include <QQmlContext>
 
 #include "settings.h"
 #include "ioboard.h"
@@ -10,7 +11,7 @@
 
 
 // static Settings settings;
-// static IoBoard ioboard(NULL);    // Qui non funziona !
+// static IoBoard ioboard(NULL);    // Qui non funziona - non connette (?)
 //Cassetti cassetti;
 //Prenotazioni prenotazioni;
 DataSource dataSource;
@@ -39,14 +40,17 @@ int main(int argc, char *argv[])
 
 
     DataSource dataSource;
-
-//    Settings* settings = dataSource.getSettings();
+    Prenotazioni* prenotazioni = dataSource.getPrenotazioni();
+    MachineSettings* settings = dataSource.getSettings();
 
     // Oggetti pubblicati verso QML
-    //qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
+    // qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
     // qmlRegisterType<Prenotazioni>("com.amtek.locker", 1, 0, "Prenotazioni");
+    // qmlRegisterType<IoBoard>("com.amtek.locker", 1, 0, "IoBoard"); Permette di istanziare da QML
 
-    qmlRegisterType<IoBoard>("com.amtek.locker", 1, 0, "IoBoard");
+    engine.rootContext()->setContextProperty( "ioBoard", &ioboard);
+    engine.rootContext()->setContextProperty( "prenotazioni", prenotazioni);
+    engine.rootContext()->setContextProperty( "mysettings", settings);
 
     qRegisterMetaType<TipoPrenotazione>("TipoPrenotazione");
     qmlRegisterUncreatableType<TipoPrenotazioneClass>("com.amtek.locker", 1, 0, "TipoPrenotazione", "Not creatable as it is an enum type");

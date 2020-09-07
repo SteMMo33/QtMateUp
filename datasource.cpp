@@ -20,7 +20,9 @@ DataSource::DataSource()
 
 DataSource::~DataSource()
 {
+    qDebug() << "[DataSource]D'tor";
     if(_open){
+        qDebug() << "[DataSource] Close DB";
         db.close();
         db.removeDatabase("QMYSQL");
     }
@@ -47,9 +49,9 @@ Prenotazioni* DataSource::getPrenotazioni()
  * Lettura dei Settings dalla tabella omonima
  * @return
  */
-Settings* DataSource::getSettings()
+MachineSettings* DataSource::getSettings()
 {
-    Settings* set = new Settings();
+    MachineSettings* set = new MachineSettings();
 
     QSqlQuery query("select * from settings;");
     // Loop su tutti i valori in tabella

@@ -209,7 +209,11 @@ int IoBoard::apriCassetto(int nCassetto)
     else {
         unsigned char cmd[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x02, 0x42 };
         cmd[6] = crc( cmd, 6);
-        sendSerial(cmd, 7);
+        int ret = sendSerial(cmd, 7);
+        if (ret){
+            if (_response.at(0)==ACK)
+                qDebug() << "[] Apertura OK";
+        }
     }
     return 1;
 };
@@ -232,7 +236,16 @@ int IoBoard::leggiCassetto(int nCassetto)
         unsigned char cmd[] = { 0x3C, 0x01, 0xFF, 0xFF };
         cmd[2] = (char)nCassetto;
         cmd[3] = crc( cmd, 3);
-        sendSerial(cmd, 4);
+        int ret = sendSerial(cmd, 4);
+        if (ret > 0){
+            if (_response.at(1)==0x3C){   // Controlla che sia una sua risposta
+                // Decodifica risposta
+                qDebug() << "[] index:" << QChar(_response.at(3)) << " - " << (_response.at(4) ? "aperto" : "chiuso");
+            }
+        }
+        else {
+            qDebug() << "[IoBoard] Errore comando: " << ret;
+        }
     }
     return 1;
 };
@@ -253,20 +266,32 @@ int IoBoard::sendSerial(unsigned char* buffer, int size)
     _serial.write((char*)buffer, size);
 
     if (_serial.waitForBytesWritten(waitTimeout)) {
-        qDebug() << "[] Sent.." << this;
+        // qDebug() << "[] Sent.." << this;
         // read response
         if (_serial.waitForReadyRead(waitTimeout*3)) {
-            QByteArray responseData = _serial.readAll();
+            _response = _serial.readAll();
             while (_serial.waitForReadyRead(10))
-                responseData += _serial.readAll();
-            qDebug() << "[] Read:" << responseData.toHex();
+                _response += _serial.readAll();
+            qDebug() << "[] Read:" << _response.toHex();
         }
         else {
             qDebug() << "[] TO Read";
+            return -1;
         }
     }
     else {
         qDebug() << "[] TO Write";
+        return -2;
     }
-    return 1;
+    //
+    // Controllo risposta
+    if (_response.at(0)==REP)
+        return _response.length();
+    else if (_response.at(0)==DLE){
+        qDebug() << "[] DLE";
+    }
+    else if (_response.at(0)==ETB){
+        qDebug() << "[] ETB";
+    }
+    return -4;
 }

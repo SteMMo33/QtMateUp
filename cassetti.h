@@ -19,6 +19,7 @@ class Cassetti
 
 public:
     Cassetti();
+
     int GetNumber() { return _number; };
 
 private:
