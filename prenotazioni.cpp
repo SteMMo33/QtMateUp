@@ -20,3 +20,16 @@ int Prenotazioni::checkCode(TipoPrenotazione tipo, QString code)
     // qDebug() << "[checkCode] Tipo: - Code:" << code;
     return 1;
 };
+
+
+
+
+int Prenotazioni::sendEmail()
+{
+    qDebug() << "[Prenotazioni] sendEmail";
+
+    SendEmail* email = new SendEmail();
+    email->send();
+
+    return 1;
+};

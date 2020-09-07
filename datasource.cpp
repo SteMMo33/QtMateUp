@@ -33,13 +33,22 @@ DataSource::~DataSource()
 
 Cassetti* DataSource::getCassetti()
 {
-    return nullptr;
+    Cassetti* cassetti = new Cassetti();
+
+    QSqlQuery query("select * from cassetti_detail;");
+    while (query.next()) {
+            Cassetto* cass = new Cassetto();
+            cass->setVuoto(query.value("Vuoto").toBool());
+            cassetti->append(*cass);
+    }
+    return cassetti;
 };
 
 
 Prenotazioni* DataSource::getPrenotazioni()
 {
-    return nullptr;
+    Prenotazioni* prenotazioni = new Prenotazioni;
+    return prenotazioni;
 };
 
 

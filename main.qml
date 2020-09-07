@@ -34,22 +34,6 @@ Window {
         id: ld
     }
 
-    /*
-    Settings {
-        id: settings
-    }
-    */
-
-    /*
-    Prenotazioni {
-        id: prenotazioni
-    }
-    */
-
-    /* Instanzia un nuovo oggetto
-    IoBoard {
-        id: ioBoard
-    } */
 
 
     Rectangle {
@@ -307,6 +291,45 @@ Window {
                 onClick: ioBoard.apriCassetto(2)
             }
 
+            BtnLocker {
+                id: btnLockerC21
+                x: 48
+                y: 355
+                width: 235
+                height: 76
+                textSec: ""
+                anchors.horizontalCenterOffset: 1
+                textMain: "Cassetto 21"
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClick: ioBoard.apriCassetto(21)
+            }
+
+            BtnLocker {
+                id: btnLockerC22
+                x: 44
+                y: 441
+                width: 235
+                height: 75
+                textSec: ""
+                anchors.horizontalCenterOffset: 1
+                textMain: "Cassetto 22"
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClick: ioBoard.apriCassetto(22)
+            }
+
+            BtnLocker {
+                id: btnLockerEmail
+                x: 47
+                y: 528
+                width: 235
+                height: 77
+                anchors.horizontalCenterOffset: 1
+                textSec: ""
+                anchors.horizontalCenter: parent.horizontalCenter
+                textMain: "Email"
+                onClick: prenotazioni.sendEmail()
+            }
+
         }
     }
 
@@ -552,10 +575,9 @@ Window {
                 onClick: showHome()
             }
 
-
-
         }
     }
+
 
     Rectangle {
         id: pnlPagamento

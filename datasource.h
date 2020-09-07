@@ -1,6 +1,7 @@
 #ifndef DATASOURCE_H
 #define DATASOURCE_H
 
+#include <QtSql/QSqlQuery>
 
 #include "cassetti.h"
 #include "prenotazioni.h"

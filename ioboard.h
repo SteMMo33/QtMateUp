@@ -29,6 +29,8 @@ public:
 
     Q_INVOKABLE int apriCassetto(int nCassetto);
     Q_INVOKABLE int leggiCassetto(int nCassetto);
+    Q_INVOKABLE int setInternalTable(int nCassetti);
+
 
     void setType(ConnectionType type) { _type = type;};
     int sendSerial( unsigned char* buffer, int size);

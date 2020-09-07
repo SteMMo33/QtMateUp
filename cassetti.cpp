@@ -5,10 +5,11 @@
  * @brief Cassetti::Cassetti
  * Costruttore
  */
-Cassetti::Cassetti() : _number(0)
+Cassetti::Cassetti() // : _number(0)
 {
     qDebug() << "Costruttore Cassetti";
 
+    /*
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("localhost");
     db.setDatabaseName("kiosk");
@@ -29,5 +30,5 @@ Cassetti::Cassetti() : _number(0)
         db.close();
         db.removeDatabase("MYSQL");
     }
-
+    */
 }

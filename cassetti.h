@@ -2,29 +2,34 @@
 #define CASSETTI_H
 
 #include <QDebug>
-#include <QtSql/QSqlQuery>
-
 
 
 class Cassetto
 {
 public:
-    bool    isEmpty;
+    bool    isEmpty() { return _vuoto; };
+
+    void setVuoto(){ _vuoto = true; };
+    void setVuoto(bool bVuoto){ _vuoto = bVuoto; };
+    void setPieno(){ _vuoto = false; };
+
+private:
+    bool _vuoto;
 };
 
 
 
-class Cassetti
+class Cassetti : public QList<Cassetto>
 {
 
 public:
     Cassetti();
 
-    int GetNumber() { return _number; };
+    // int GetNumber() { return _number; };
 
 private:
-    int _number;
-    QList<Cassetto> _cassetti;
+    //int _number;
+    //QList<Cassetto> _cassetti;
 };
 
 #endif // CASSETTI_H

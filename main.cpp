@@ -10,14 +10,13 @@
 #include "datasource.h"
 
 
-// static Settings settings;
-// static IoBoard ioboard(NULL);    // Qui non funziona - non connette (?)
-//Cassetti cassetti;
-//Prenotazioni prenotazioni;
-DataSource dataSource;
 
-
-
+/**
+ * @brief main
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -42,6 +41,7 @@ int main(int argc, char *argv[])
     DataSource dataSource;
     Prenotazioni* prenotazioni = dataSource.getPrenotazioni();
     MachineSettings* settings = dataSource.getSettings();
+    Cassetti* cassetti = dataSource.getCassetti();
 
     // Oggetti pubblicati verso QML
     // qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
@@ -59,19 +59,22 @@ int main(int argc, char *argv[])
 
     qDebug() << "Platform: " << app.platformName();
 
-    // Prova accesso settings
-    /*
-    qDebug() << "Farmacia: " << settings->get("farmacia");
-    qDebug() << "Cassetti: " << settings->get("numColumn");
+
+    // Prova accesso 'settings'
+
+    qDebug() << "Farmacia: " << settings->value("farmacia");
+/*    qDebug() << "Cassetti: " << settings->get("numColumn");
     qDebug() << "email: " << settings->get("emailFarmacia");
     qDebug() << "serial: " << settings->get("serial_port");
 */
+    qDebug() << settings->value("serial_port");
 
     // Cassetti
-    //qDebug() << "Cassetti da DB: " << cassetti.GetNumber();
+    qDebug() << "Cassetti da DB: " << cassetti->length();
 
     // Prenotazioni
     //prenotazioni.checkCode( TipoPrenotazione::TIPO_DEPOSITO, "99887766");
 	
     return app.exec();
 }
+

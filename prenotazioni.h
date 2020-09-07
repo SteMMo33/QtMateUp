@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QDebug>
 
+#include "sendemail.h"
+
 
 
 class Prenotazione
@@ -40,6 +42,7 @@ class Prenotazioni : public QObject
 public:
     Prenotazioni();
     Q_INVOKABLE int checkCode(TipoPrenotazione tipo, QString code);
+    Q_INVOKABLE int sendEmail();
 
 };
 

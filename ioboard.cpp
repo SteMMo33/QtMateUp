@@ -295,3 +295,31 @@ int IoBoard::sendSerial(unsigned char* buffer, int size)
     }
     return -4;
 }
+
+
+
+/**
+ * @brief IoBoard::setTable
+ * Funzione per settare la tabella interna alla CPU per associazione codice - cassetto
+ * ed abilitare tutti i cassetti
+ */
+int IoBoard::setInternalTable(int nCassetti)
+{
+    int c = 1;
+    while (c <= nCassetti){
+        unsigned char cmd[] = { 0x04, 0x08, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0xEE };
+        cmd[5] = c;
+        cmd[9] = c;
+        cmd[10] = crc( cmd, 10);
+        int ret = sendSerial(cmd, 11);
+        if (ret){
+            if (_response.at(0)==ACK)
+                qDebug() << "[] enable " << QString(c) << " OK";
+            else
+                qDebug() << "[] enable " << QString(c) << " ERR " << ret;
+        }
+        ++c;
+    }
+    return 1;
+}
+

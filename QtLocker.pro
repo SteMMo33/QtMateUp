@@ -11,10 +11,25 @@ SOURCES += \
     datasource.cpp \
     main.cpp \
     prenotazioni.cpp \
+    sendemail.cpp \
     settings.cpp \
-    ioboard.cpp
+    ioboard.cpp \
+    smtp/emailaddress.cpp \
+    smtp/mimeattachment.cpp \
+    smtp/mimecontentformatter.cpp \
+    smtp/mimefile.cpp \
+    smtp/mimehtml.cpp \
+    smtp/mimeinlinefile.cpp \
+    smtp/mimemessage.cpp \
+    smtp/mimemultipart.cpp \
+    smtp/mimepart.cpp \
+    smtp/mimetext.cpp \
+    smtp/quotedprintable.cpp \
+    smtp/smtpclient.cpp
 
 RESOURCES += qml.qrc
+
+OBJECTS_DIR = obj
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -33,5 +48,20 @@ HEADERS += \
     cassetti.h \
     datasource.h \
     prenotazioni.h \
+    sendemail.h \
     settings.h \
-    ioboard.h
+    ioboard.h \
+    smtp/SmtpMime \
+    smtp/emailaddress.h \
+    smtp/mimeattachment.h \
+    smtp/mimecontentformatter.h \
+    smtp/mimefile.h \
+    smtp/mimehtml.h \
+    smtp/mimeinlinefile.h \
+    smtp/mimemessage.h \
+    smtp/mimemultipart.h \
+    smtp/mimepart.h \
+    smtp/mimetext.h \
+    smtp/quotedprintable.h \
+    smtp/smtpclient.h \
+    smtp/smtpexports.h
