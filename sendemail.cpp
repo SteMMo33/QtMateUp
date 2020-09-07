@@ -7,6 +7,11 @@ SendEmail::SendEmail()
 
 
 
+/**
+ * @brief SendEmail::send
+ * Invio email
+ * @return
+ */
 int SendEmail::send()
 {
     qDebug() << "[SendEmail] send";
@@ -25,7 +30,7 @@ int SendEmail::send()
     EmailAddress sender("s.mora@amtek.it", "Your Name");
     message.setSender(&sender);
 
-    EmailAddress to("s.mora@amtek.it", "Recipient's Name");
+    EmailAddress to("s.mora@amtek.it", "Locker");
     message.addRecipient(&to);
 
     message.setSubject("SmtpClient for Qt - Demo");

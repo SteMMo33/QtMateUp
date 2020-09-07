@@ -223,7 +223,7 @@ Window {
 
     Rectangle {
         id: pnlDeposito
-        visible: false
+        visible: true
         color: "#000000"
         anchors.left: parent.left
         anchors.right: parent.right
@@ -232,7 +232,7 @@ Window {
 
         Rectangle {
             id: pnlDepositoInterno
-            width: 470
+            width: 520
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
@@ -268,11 +268,11 @@ Window {
 
             BtnLocker {
                 id: btnLockerC1
-                x: 48
                 y: 172
                 width: 235
                 height: 76
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 0
                 textMain: "Cassetto 1"
                 textSec: ""
                 onClick: ioBoard.apriCassetto(1)
@@ -280,54 +280,61 @@ Window {
 
             BtnLocker {
                 id: btnLockerC2
-                x: 51
                 y: 264
                 width: 235
                 height: 76
-                anchors.horizontalCenterOffset: 0
+                anchors.left: parent.left
                 textMain: "Cassetto 2"
                 textSec: ""
-                anchors.horizontalCenter: parent.horizontalCenter
                 onClick: ioBoard.apriCassetto(2)
             }
 
             BtnLocker {
                 id: btnLockerC21
-                x: 48
                 y: 355
                 width: 235
                 height: 76
+                anchors.left: parent.left
                 textSec: ""
-                anchors.horizontalCenterOffset: 1
                 textMain: "Cassetto 21"
-                anchors.horizontalCenter: parent.horizontalCenter
                 onClick: ioBoard.apriCassetto(21)
             }
 
             BtnLocker {
                 id: btnLockerC22
-                x: 44
                 y: 441
                 width: 235
                 height: 75
+                anchors.left: parent.left
                 textSec: ""
-                anchors.horizontalCenterOffset: 1
                 textMain: "Cassetto 22"
-                anchors.horizontalCenter: parent.horizontalCenter
                 onClick: ioBoard.apriCassetto(22)
             }
 
             BtnLocker {
                 id: btnLockerEmail
-                x: 47
-                y: 528
+                x: 285
+                y: 172
                 width: 235
                 height: 77
-                anchors.horizontalCenterOffset: 1
+                anchors.right: parent.right
+                anchors.rightMargin: 0
                 textSec: ""
-                anchors.horizontalCenter: parent.horizontalCenter
                 textMain: "Email"
                 onClick: prenotazioni.sendEmail()
+            }
+
+            BtnLocker {
+                id: btnLockerSetTable
+                x: 285
+                y: 264
+                width: 235
+                height: 77
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                textSec: ""
+                textMain: "Set int. table"
+                onClick: ioBoard.setInternalTable()
             }
 
         }
@@ -642,3 +649,9 @@ Window {
 
 
 
+
+/*##^##
+Designer {
+    D{i:25}D{i:26}D{i:27}D{i:28}
+}
+##^##*/

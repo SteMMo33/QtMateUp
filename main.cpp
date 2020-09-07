@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
+    qDebug() << "Platform: " << app.platformName();
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -33,15 +34,21 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
 
 
-    //
-    IoBoard ioboard;
-    ioboard.setType((IoBoard::CONNECTION_SERIAL));
-
+    // Preparazione ambiente
 
     DataSource dataSource;
     Prenotazioni* prenotazioni = dataSource.getPrenotazioni();
     MachineSettings* settings = dataSource.getSettings();
     Cassetti* cassetti = dataSource.getCassetti();
+
+    // Accesso 'settings'
+    qDebug() << "Farmacia: " << settings->value("farmacia");
+    qDebug() << "Cassetti: " << settings->value("numColumn");
+    qDebug() << "email: " << settings->value("emailFarmacia");
+    qDebug() << "serial: " << settings->value("serial_port");
+
+    IoBoard ioboard;
+    ioboard.setType(IoBoard::CONNECTION_SERIAL, settings->value("serial_port"));
 
     // Oggetti pubblicati verso QML
     // qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
@@ -57,17 +64,6 @@ int main(int argc, char *argv[])
 
     engine.load(url);
 
-    qDebug() << "Platform: " << app.platformName();
-
-
-    // Prova accesso 'settings'
-
-    qDebug() << "Farmacia: " << settings->value("farmacia");
-/*    qDebug() << "Cassetti: " << settings->get("numColumn");
-    qDebug() << "email: " << settings->get("emailFarmacia");
-    qDebug() << "serial: " << settings->get("serial_port");
-*/
-    qDebug() << settings->value("serial_port");
 
     // Cassetti
     qDebug() << "Cassetti da DB: " << cassetti->length();

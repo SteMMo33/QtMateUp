@@ -18,11 +18,13 @@ public:
         CONNECTION_SERIAL
     } ConnectionType;
 
-#define ACK     0x06
-#define DLE     0x10
-#define NACK    0x15
-#define ETB     0x17
-#define REP     0x5A
+    enum {
+        ACK =    0x06,
+        DLE =    0x10,
+        NAK =    0x15,
+        ETB =    0x17,
+        REP =    0x5A
+    };
 
     IoBoard(QObject* parent = nullptr);
     virtual ~IoBoard();
@@ -32,8 +34,8 @@ public:
     Q_INVOKABLE int setInternalTable(int nCassetti);
 
 
-    void setType(ConnectionType type) { _type = type;};
-    int sendSerial( unsigned char* buffer, int size);
+    int setType(ConnectionType type, QString serialName);
+
 
 private Q_SLOTS:
     void onConnected();
@@ -47,11 +49,14 @@ private Q_SLOTS:
 
 private:
     QWebSocket _ws;
+    QString _serialName;
     QSerialPort _serial;
     ConnectionType _type;
     QByteArray _response;
+    int _waitTimeout = 5000;
 
     unsigned char crc( unsigned char* buffer, int size);
+    int sendSerial( unsigned char* buffer, int size);
 };
 
 

@@ -9,7 +9,6 @@
 #include "ioboard.h"
 
 
-#define SERIALE
 
 
 /**
@@ -51,49 +50,6 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent), _type(CONNECTION_SERIAL)
         const auto infos = QSerialPortInfo::availablePorts();
         for (const QSerialPortInfo &info : infos)
             qDebug() << info.portName();
-
-    QString portName = "ttyS1";
-    int waitTimeout = 5000;
-
-    qDebug() << "[IoBoard] Serial:" << portName;
-    _serial.setPortName(portName);
-    if (!_serial.open(QIODevice::ReadWrite)) {
-        qDebug() << tr("!! Can't open %1, error code %2").arg(portName).arg(_serial.error());
-    }
-    else {
-
-        _serial.setBaudRate(9600);
-        _serial.setDataBits(QSerialPort::Data8);
-        _serial.setFlowControl(QSerialPort::NoFlowControl);
-        _serial.setParity(QSerialPort::NoParity);
-        _serial.setStopBits(QSerialPort::OneStop);
-
-        qDebug() << "[] SendCmd";
-        // char cmd[] = { 0x00, 0x00, 0x7F };
-        // char fwCmd[] = { 0x02, 0x00, 0x7D };
-        // char cmdLista01[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x01, 0x41};
-        // char cmdLista02[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x02, 0x42};
-        char cmd[] = { 0x03, 0x01, 0x01, 0x7C };
-
-        _serial.write(cmd);
-
-        if (_serial.waitForBytesWritten(waitTimeout)) {
-            qDebug() << "[] Sent..";
-            // read response
-            if (_serial.waitForReadyRead(waitTimeout*3)) {
-                QByteArray responseData = _serial.readAll();
-                while (_serial.waitForReadyRead(10))
-                    responseData += _serial.readAll();
-                qDebug() << "[] Read:" << responseData;
-            }
-            else {
-                qDebug() << "[] TO Read";
-            }
-        }
-        else {
-            qDebug() << "[] TO Write";
-        }
-    }
 
     } // if SERIAL
 }
@@ -185,6 +141,32 @@ void IoBoard::onStateChanged(QAbstractSocket::SocketState state)
 
 
 
+
+int IoBoard::setType(ConnectionType type, QString serialName)
+{
+    _type = type;
+    _serialName = serialName;
+
+
+    qDebug() << "[IoBoard] Serial:" << _serialName;
+
+    if (_serial.isOpen()) _serial.close();
+
+    _serial.setPortName(_serialName);
+    if (!_serial.open(QIODevice::ReadWrite)) {
+        qDebug() << tr("!! Can't open %1, error code %2").arg(_serialName).arg(_serial.error());
+        return 0;
+    }
+        _serial.setBaudRate(9600);
+        _serial.setDataBits(QSerialPort::Data8);
+        _serial.setFlowControl(QSerialPort::NoFlowControl);
+        _serial.setParity(QSerialPort::NoParity);
+        _serial.setStopBits(QSerialPort::OneStop);
+    return 1;
+}
+
+
+
 unsigned char IoBoard::crc( unsigned char* buffer, int size)
 {
     unsigned char crc = 0x7F;
@@ -207,7 +189,8 @@ int IoBoard::apriCassetto(int nCassetto)
         _ws.sendTextMessage(QString("{\"AperCassetto\":%1}").arg(nCassetto));
     }
     else {
-        unsigned char cmd[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0x02, 0x42 };
+        unsigned char cmd[] = { 0x3B, 0x04, 0x00, 0x00, 0x00, 0xFF, 0xFF };
+        cmd[5] = char(nCassetto);
         cmd[6] = crc( cmd, 6);
         int ret = sendSerial(cmd, 7);
         if (ret){
@@ -230,7 +213,7 @@ int IoBoard::leggiCassetto(int nCassetto)
     qDebug() << "[IoBoard] leggiCassetto:" << nCassetto;
 
     if (_type==CONNECTION_WS){
-        qDebug() << "ToDo";
+        qDebug() << "ToDo WS";
     }
     else {
         unsigned char cmd[] = { 0x3C, 0x01, 0xFF, 0xFF };
@@ -262,7 +245,7 @@ int IoBoard::sendSerial(unsigned char* buffer, int size)
 {
     int waitTimeout = 5000;
 
-    qDebug() << "TX:" << QByteArray((char*)buffer).toHex() << this;
+    qDebug() << "[IoBoard] TX:" << QByteArray((char*)buffer, size).toHex() << this;
     _serial.write((char*)buffer, size);
 
     if (_serial.waitForBytesWritten(waitTimeout)) {
@@ -299,7 +282,7 @@ int IoBoard::sendSerial(unsigned char* buffer, int size)
 
 
 /**
- * @brief IoBoard::setTable
+ * @brief IoBoard::setInternalTable
  * Funzione per settare la tabella interna alla CPU per associazione codice - cassetto
  * ed abilitare tutti i cassetti
  */
