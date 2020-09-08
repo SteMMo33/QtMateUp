@@ -36,6 +36,7 @@ Window {
         y: 23
         text: qsTr("ASSISTENZA") + " - Colonne: " + mysettings.get("numColumn")
         font.pixelSize: 46
+        font.family: "Proxima Nova Rg"
         font.bold: true
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
@@ -52,7 +53,11 @@ Window {
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
         keyName: "RITORNA ALLA PAGINA INIZIALE"
-        onPressedChanged: Loader.source = "qrc:/main.qml"
+        onPressedChanged: {
+            console.log("> Pressed ritorna")
+            // parent.source = "qrc:/main.qml"
+            Loader.source = ""
+        }
     }
 
     BtnKeyboard {
@@ -70,10 +75,13 @@ Window {
         x: 446
         y: 224
         width: 309
-        height: 90
+        height: 78
         keyName: "Apri motore a vite"
         onPressedChanged: {
             console.log("> ", mysettings)
+            console.log(typeof mysettings)
+            for(var el in mysettings)
+                console.log(el)
         }
     }
 
@@ -135,7 +143,7 @@ Window {
                     font.bold: true
                 }
                 Text {
-                    text: name
+                    text: "N:"+name
                     anchors.verticalCenter: parent.verticalCenter
                     font.bold: true
                 }

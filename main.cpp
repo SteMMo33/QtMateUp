@@ -8,6 +8,7 @@
 
 
 
+
 /**
  * @brief main
  * @param argc
@@ -40,30 +41,31 @@ int main(int argc, char *argv[])
     Cassetti* cassetti = dataSource.getCassetti();
 
     // Accesso 'settings'
-    qDebug() << "Farmacia: " << settings->value("farmacia");
+    qDebug() << "Farmacia: " << settings->value("farmacia").toString();
     qDebug() << "Cassetti: " << settings->value("numColumn");
-    qDebug() << "email: " << settings->value("emailFarmacia");
-    qDebug() << "serial: " << settings->value("serial_port");
+    qDebug() << "email: " << settings->value("emailFarmacia").toString();
+    qDebug() << "serial: " << settings->value("serial_port").toString();
 
     IoBoard ioboard;
-    ioboard.setType(IoBoard::CONNECTION_SERIAL, settings->value("serial_port"));
+    ioboard.setType(IoBoard::CONNECTION_SERIAL, settings->value("serial_port").toString());
 
     // Oggetti pubblicati verso QML
     // qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
     // qmlRegisterType<Prenotazioni>("com.amtek.locker", 1, 0, "Prenotazioni");
     // qmlRegisterType<IoBoard>("com.amtek.locker", 1, 0, "IoBoard"); Permette di istanziare da QML
+    qmlRegisterType<Prenotazione>("com.amtek.locker", 1, 0, "Prenotazione");
 
     engine.rootContext()->setContextProperty( "ioBoard", &ioboard);
     engine.rootContext()->setContextProperty( "prenotazioni", prenotazioni);
     engine.rootContext()->setContextProperty( "mysettings", settings);
+    engine.rootContext()->setContextProperty( "ds", &dataSource);
 
-    engine.rootContext()->setContextProperty( "farmacia_name", settings->value("farmacia"));    // Per l'intestazione della finestra
+    engine.rootContext()->setContextProperty( "farmacia_name", settings->value("farmacia").toString());    // Per l'intestazione della finestra
 
     qRegisterMetaType<TipoPrenotazione>("TipoPrenotazione");
     qmlRegisterUncreatableType<TipoPrenotazioneClass>("com.amtek.locker", 1, 0, "TipoPrenotazione", "Not creatable as it is an enum type");
 
     engine.load(url);
-
 
     // Cassetti
     qDebug() << "Cassetti da DB: " << cassetti->length();

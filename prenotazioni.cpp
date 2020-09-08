@@ -3,7 +3,7 @@
 
 Prenotazioni::Prenotazioni()
 {
-    qDebug() << "Costruttore Prenotazioni";
+    qDebug() << "C'tor Prenotazioni";
 }
 
 

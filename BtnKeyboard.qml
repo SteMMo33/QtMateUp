@@ -31,16 +31,35 @@ Item {
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
+            styleColor: "#ffffff"
+            style: Text.Sunken
             font.family: "Proxima Nova Rg"
             anchors.fill: parent
             font.pixelSize: 27
         }
 
+        Rectangle {
+            id: rectPressed
+            opacity: 0.5
+            visible: false
+            color: "#848484"
+            anchors.fill: parent
+        }
+
         MouseArea {
             id: mouseArea
             anchors.fill: parent
+            onPressed: rectPressed.visible = true
+            onReleased: rectPressed.visible = false
         }
+
     }
 
 }
 
+
+/*##^##
+Designer {
+    D{i:6}
+}
+##^##*/

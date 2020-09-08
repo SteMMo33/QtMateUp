@@ -22,7 +22,7 @@
 //! [constructor]
 IoBoard::IoBoard(QObject* parent) : QObject(parent), _type(CONNECTION_SERIAL)
 {
-    qDebug() << "Costruttore IoBoard" << this;
+    qDebug() << "C'tor IoBoard" << this;
 
     if (_type == CONNECTION_WS) {
 
@@ -63,7 +63,7 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent), _type(CONNECTION_SERIAL)
 
 IoBoard::~IoBoard()
 {
-    qDebug() << "[IoBoard] Des'ctor" << this;
+    qDebug() << "[IoBoard] D'ctor" << this;
 
     if (_type == CONNECTION_WS)
         _ws.close();

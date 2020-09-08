@@ -14,7 +14,6 @@ DataSource::DataSource()
     db.setPassword("amtek");
     _open = db.open();
     qDebug() << "[DataSource] open: " << _open;
-
 }
 
 
@@ -30,7 +29,11 @@ DataSource::~DataSource()
 
 
 
-
+/**
+ * @brief DataSource::getCassetti
+ * Lettura stato cassetti come in DB
+ * @return
+ */
 Cassetti* DataSource::getCassetti()
 {
     Cassetti* cassetti = new Cassetti();
@@ -47,7 +50,7 @@ Cassetti* DataSource::getCassetti()
 
 Prenotazioni* DataSource::getPrenotazioni()
 {
-    Prenotazioni* prenotazioni = new Prenotazioni;
+    Prenotazioni* prenotazioni = new Prenotazioni();
     return prenotazioni;
 };
 
@@ -73,8 +76,28 @@ MachineSettings* DataSource::getSettings()
         if (strCleanValue.endsWith("'")) strCleanValue.remove( strCleanValue.length()-1, 1);
 
         QString strKey = query.value("name").toString();
-        set->insert( strKey, strCleanValue);
+        set->insert( strKey, QVariant::fromValue(strCleanValue));
     }
     return set;
 };
+
+
+
+
+Prenotazione* DataSource::checkCode(TipoPrenotazione tipo, QString codice)
+{
+    Prenotazione* p = nullptr;
+
+    QString nameType = tipo == TipoPrenotazioneClass::TIPO_RITIRO ? "codice_ritiro" : "codice_consegna";
+    QString strQuery = QString("select * from prenotazioni where %1=%2;").arg(nameType).arg(codice);
+    QSqlQuery query(strQuery);
+
+    qDebug() << "[DataSource] query = '" << strQuery;
+
+    if (query.next()) {
+        qDebug()<< query.boundValues();
+    }
+    return p;
+};
+
 

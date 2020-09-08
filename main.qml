@@ -117,14 +117,16 @@ Window {
 
                 Text {
                     id: txtHeaderC2
-                    y: 43
+                    y: 87
+                    height: 23
                     color: "#e88705"
                     text: qsTr("SELEZIONA IL SERVIZIO")
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-                    font.pixelSize: 19
+                    font.pixelSize: 23
                     horizontalAlignment: Text.AlignHCenter
+                    fontSizeMode: Text.Fit
                     font.family: "Proxima Nova Rg"
                     anchors.bottomMargin: 20
                     font.bold: true
@@ -205,11 +207,6 @@ Window {
                 btnLockerDeposito.visible = false
 
                 txtHeaderC2.text = "RITIRO ARTICOLO"
-
-                //console.log(settings)
-                //console.log(settings['emailFarmacia'])
-
-                prenotazioni.checkCode( TipoPrenotazione.TIPO_RITIRO, "123456789")
             }
 
         }
@@ -339,6 +336,7 @@ Window {
 
 
 
+
     Rectangle {
         id: pnlRitiro
         visible: false
@@ -359,12 +357,14 @@ Window {
                 id: lblInserisci
                 x: -100
                 y: 40
-                text: qsTr("Inserisci codice di prenotazione")
+                color: "#fed513"
+                text: qsTr("Inserisci il codice di prenotazione")
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top
                 font.pixelSize: 23
                 horizontalAlignment: Text.AlignHCenter
+                font.family: "Proxima Nova Rg"
                 anchors.topMargin: 40
                 anchors.leftMargin: 0
                 anchors.rightMargin: 0
@@ -396,6 +396,7 @@ Window {
                     font.pixelSize: 32
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
+                    font.family: "Proxima Nova Rg"
                     anchors.bottomMargin: 10
                     anchors.topMargin: 10
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -441,13 +442,13 @@ Window {
 
                 Rectangle {
                     id: rectangle
-                    width: 480
+                    width: 504
                     height: 350
                     color: "#848484"
                     radius: 18
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    anchors.rightMargin: 45
+                    anchors.rightMargin: 35
 
                     Text {
                         id: lblIstruzioni
@@ -456,6 +457,7 @@ Window {
                         anchors.fill: parent
                         font.pixelSize: 40
                         wrapMode: Text.WordWrap
+                        font.family: "Proxima Nova Rg"
                         anchors.rightMargin: 25
                         anchors.leftMargin: 25
                         anchors.bottomMargin: 30
@@ -554,11 +556,14 @@ Window {
                     textColor: "#2db502"
                     keyName: "OK"
                     onPressedChanged: function(){
-                        pnlRitiro.visible=false
-                        pnlHome.visible = true
-                        gridKeyboard.visible = false
 
                         console.log("OK - "+edtCodicePrenotazione.text)
+                        if (edtCodicePrenotazione){
+                            gridKeyboard.visible = false
+                            var r = ds.checkCode( TipoPrenotazione.TIPO_RITIRO, edtCodicePrenotazione.text)
+                            console.log(r)
+                        }
+                        showHome()
                     }
                 }
 
@@ -567,9 +572,9 @@ Window {
             BtnLocker {
                 id: btnBackHome
                 x: 0
-                y: 547
+                y: 557
                 width: 714
-                height: 98
+                height: 78
                 anchors.bottom: parent.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottomMargin: 15
@@ -580,6 +585,7 @@ Window {
 
         }
     }
+
 
 
     Rectangle {
@@ -598,34 +604,35 @@ Window {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             Text {
-                id: txtScritta
+                id: txtValorePos
                 height: 69
                 visible: true
                 color: "#f1ed02"
                 text: qsTr("C'è da pagare")
                 anchors.left: parent.left
                 anchors.right: parent.right
-                font.pixelSize: 21
+                font.pixelSize: 24
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
+                font.family: "Proxima Nova Rg"
                 anchors.leftMargin: 0
                 fontSizeMode: Text.VerticalFit
             }
 
             BtnLocker {
                 id: btnPagaConPos
-                width: 254
+                width: 432
                 height: 190
-                anchors.top: txtScritta.bottom
+                anchors.top: txtValorePos.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 textMain: "Paga con POS"
                 textSec: "Clicca per pagare con il POS"
-                anchors.topMargin: 10
+                anchors.topMargin: 25
             }
 
             BtnLocker {
                 id: btnPagaRitorna
-                width: 366
+                width: 470
                 height: 73
                 anchors.top: btnPagaConPos.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -639,6 +646,60 @@ Window {
     }
 
 
+
+    Rectangle {
+        id: pnlRitiroCassetto
+        visible: false
+        color: "#000000"
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: pnlHeader.bottom
+        anchors.bottom: parent.bottom
+
+        Text {
+            id: testo1
+            y: 138
+            height: 58
+            color: "#f7f7f7"
+            text: qsTr("Text")
+            anchors.left: parent.left
+            anchors.right: parent.right
+            font.pixelSize: 36
+            horizontalAlignment: Text.AlignHCenter
+            font.family: "Proxima Nova Rg"
+            anchors.rightMargin: 0
+            anchors.leftMargin: 0
+            fontSizeMode: Text.Fit
+        }
+
+        Text {
+            id: testo2
+            y: 222
+            height: 54
+            color: "#f7f7f7"
+            text: qsTr("Text2")
+            anchors.left: parent.left
+            anchors.right: parent.right
+            font.pixelSize: 12
+            horizontalAlignment: Text.AlignHCenter
+            anchors.rightMargin: 0
+            anchors.leftMargin: 0
+        }
+
+        Text {
+            id: testo3
+            y: 329
+            color: "#f7f7f7"
+            text: qsTr("Text3")
+            anchors.left: parent.left
+            anchors.right: parent.right
+            font.pixelSize: 12
+            horizontalAlignment: Text.AlignHCenter
+            anchors.rightMargin: 0
+            anchors.leftMargin: 0
+            fontSizeMode: Text.Fit
+        }
+    }
 }
 
 
@@ -647,3 +708,9 @@ Window {
 
 
 
+
+/*##^##
+Designer {
+    D{i:60}D{i:61}D{i:62}D{i:59}
+}
+##^##*/

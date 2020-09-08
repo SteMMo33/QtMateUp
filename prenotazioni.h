@@ -8,8 +8,10 @@
 
 
 
-class Prenotazione
+
+class Prenotazione : public QObject
 {
+    Q_OBJECT
 public:
     int value;
     bool isDepositato;
@@ -35,15 +37,22 @@ public:
 typedef TipoPrenotazioneClass::Value    TipoPrenotazione;
 
 
+
+/**
+ * @brief The Prenotazioni class
+ */
 class Prenotazioni : public QObject
 {
     Q_OBJECT
 
 public:
     Prenotazioni();
+
     Q_INVOKABLE int checkCode(TipoPrenotazione tipo, QString code);
     Q_INVOKABLE int sendEmail();
 
+private:
+    // DataSource* ds;
 };
 
 #endif // PRENOTAZIONI_H
