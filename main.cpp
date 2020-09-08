@@ -1,12 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QDebug>
 #include <QQmlContext>
+#include <QDebug>
 
-#include "settings.h"
 #include "ioboard.h"
-#include "cassetti.h"
-#include "prenotazioni.h"
 #include "datasource.h"
 
 
@@ -15,6 +12,7 @@
  * @brief main
  * @param argc
  * @param argv
+ * Punto d'ingresso dell'applicazione
  * @return
  */
 int main(int argc, char *argv[])
@@ -59,6 +57,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty( "prenotazioni", prenotazioni);
     engine.rootContext()->setContextProperty( "mysettings", settings);
 
+    engine.rootContext()->setContextProperty( "farmacia_name", settings->value("farmacia"));    // Per l'intestazione della finestra
+
     qRegisterMetaType<TipoPrenotazione>("TipoPrenotazione");
     qmlRegisterUncreatableType<TipoPrenotazioneClass>("com.amtek.locker", 1, 0, "TipoPrenotazione", "Not creatable as it is an enum type");
 
@@ -67,9 +67,6 @@ int main(int argc, char *argv[])
 
     // Cassetti
     qDebug() << "Cassetti da DB: " << cassetti->length();
-
-    // Prenotazioni
-    //prenotazioni.checkCode( TipoPrenotazione::TIPO_DEPOSITO, "99887766");
 	
     return app.exec();
 }

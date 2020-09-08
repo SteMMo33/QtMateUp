@@ -101,12 +101,13 @@ Window {
                     id: txtHeaderC1
                     height: 37
                     color: "#fdfdfd"
-                    text: qsTr("Nome locker - Prova")
+                    text: farmacia_name
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: parent.top
                     font.pixelSize: 35
                     horizontalAlignment: Text.AlignHCenter
+                    font.family: "Proxima Nova Rg"
                     fontSizeMode: Text.Fit
                     font.bold: true
                     anchors.topMargin: 30
@@ -124,6 +125,7 @@ Window {
                     anchors.bottom: parent.bottom
                     font.pixelSize: 19
                     horizontalAlignment: Text.AlignHCenter
+                    font.family: "Proxima Nova Rg"
                     anchors.bottomMargin: 20
                     font.bold: true
                     anchors.rightMargin: 30

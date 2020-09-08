@@ -4,12 +4,13 @@ import QtQuick.Window 2.2
 
 
 Window {
-        id: pageAssistenza
-        width: 900
-        height: 600
+    id: pageAssistenza
+    width: 950
+    height: 700
 
-        // anchors.fill: parent
-        visibility: Window.FullScreen
+    visible: true
+    visibility: Window.FullScreen
+    title: "Pagina assistenza"
 
     BtnKeyboard {
         id: btnKeyboard
@@ -33,7 +34,7 @@ Window {
         id: element
         x: 185
         y: 23
-        text: qsTr("ASSISTENZA")
+        text: qsTr("ASSISTENZA") + " - Colonne: " + mysettings.get("numColumn")
         font.pixelSize: 46
         font.bold: true
         anchors.horizontalCenterOffset: 0
@@ -71,6 +72,9 @@ Window {
         width: 309
         height: 90
         keyName: "Apri motore a vite"
+        onPressedChanged: {
+            console.log("> ", mysettings)
+        }
     }
 
     BtnKeyboard {
@@ -82,6 +86,64 @@ Window {
         keyName: "Cassetto 22"
         onPressedChanged: ioBoard.apriCassetto(33)
     }
+
+    ListView {
+        id: listView
+        x: 446
+        y: 381
+        width: 309
+        height: 160
+        model: mysettings/* ListModel {
+            ListElement {
+                name: "Grey"
+                key: "key1"
+                colorCode: "grey"
+            }
+
+            ListElement {
+                name: "Red"
+                key: "Key2"
+                colorCode: "red"
+            }
+
+            ListElement {
+                name: "Blue"
+                key: "Key3"
+                colorCode: "blue"
+            }
+
+            ListElement {
+                name: "Green"
+                colorCode: "green"
+            }
+        } */
+        delegate: Item {
+            x: 5
+            width: 120
+            height: 40
+            Row {
+                id: row1
+                Rectangle {
+                    width: 40
+                    height: 40
+                    color: colorCode
+                }
+
+                Text {
+                    text: "Key"
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.bold: true
+                }
+                Text {
+                    text: name
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.bold: true
+                }
+                spacing: 10
+            }
+        }
+    }
+
 
 }
 

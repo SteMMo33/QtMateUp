@@ -30,6 +30,7 @@ SOURCES += \
 RESOURCES += qml.qrc
 
 OBJECTS_DIR = obj
+MOC_DIR = moc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

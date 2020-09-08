@@ -4,6 +4,10 @@
     @abstract
   Protocollo per la porta seriale Protocollo PC - scheda CPU Locker 80 vers. 1.00.doc
 
+  Viene inserita la possibilità di selezionare la modalità di docmunicazione:
+  - seriale
+  - websocket
+
 !*/
 
 #include "ioboard.h"
@@ -29,10 +33,10 @@ IoBoard::IoBoard(QObject* parent) : QObject(parent), _type(CONNECTION_SERIAL)
         QObject::connect( &_ws, &QWebSocket::destroyed, this, &IoBoard::onDestroyed);
         QObject::connect( &_ws, &QWebSocket::stateChanged, this, &IoBoard::onStateChanged);
 
-    connect( &_ws, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error),
-        [=](QAbstractSocket::SocketError error){
-            qDebug() << "[IoBoard] Errore: " << error;
-        }
+        connect( &_ws, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error),
+            [=](QAbstractSocket::SocketError error){
+                qDebug() << "[IoBoard] Errore: " << error;
+            }
     );
 
     QUrl url ("ws://localhost:7681");
