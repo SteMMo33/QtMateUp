@@ -3,12 +3,14 @@ import QtQuick.Window 2.2
 
 
 
-    Item {
+Window {
         id: pageAssistenza
         width: 900
         height: 600
 
-        anchors.fill: parent
+        // anchors.fill: parent
+        visibility: Window.FullScreen
+
     BtnKeyboard {
         id: btnKeyboard
         x: 41
@@ -44,6 +46,8 @@ import QtQuick.Window 2.2
         y: 506
         width: 624
         height: 68
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 50
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
         keyName: "RITORNA ALLA PAGINA INIZIALE"
@@ -57,6 +61,7 @@ import QtQuick.Window 2.2
         width: 309
         height: 78
         keyName: "Abilita tutti i cassetti"
+        onPressedChanged: ioBoard.setInternalTable(40)
     }
 
     BtnKeyboard {
@@ -69,12 +74,13 @@ import QtQuick.Window 2.2
     }
 
     BtnKeyboard {
-        id: btnKeyboard5
+        id: btnKeyboardC22
         x: 41
         y: 320
         width: 212
         height: 90
-        keyName: "Cassetto 3"
+        keyName: "Cassetto 22"
+        onPressedChanged: ioBoard.apriCassetto(33)
     }
 
 }

@@ -12,8 +12,6 @@ Window {
     visibility: Window.FullScreen
     color: "black"
 
-    // Da C++
-    //property alias ioboard: ioboard
 
     property alias edtCodicePrenotazione: edtCodicePrenotazione
     title: qsTr("QtLocker")
@@ -81,10 +79,6 @@ Window {
                     onClicked: {
                         console.log("Open pageAssistenza")
                         ld.source = "pageAssistenza.qml"
-                        //window.visible = false
-
-                        ioBoard.apriCassetto(2)
-                        ioBoard.leggiCassetto(2)
                     }
                 }
 
@@ -223,7 +217,7 @@ Window {
 
     Rectangle {
         id: pnlDeposito
-        visible: true
+        visible: false
         color: "#000000"
         anchors.left: parent.left
         anchors.right: parent.right
@@ -650,8 +644,4 @@ Window {
 
 
 
-/*##^##
-Designer {
-    D{i:25}D{i:26}D{i:27}D{i:28}
-}
-##^##*/
+

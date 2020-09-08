@@ -4,6 +4,7 @@ Item {
     id: bottone
     width: 350
     height: 250
+
     property alias mouseArea: mouseArea
     property alias textMain: text1.text
     property alias textSec: text2.text
@@ -45,6 +46,7 @@ Item {
             font.pixelSize: 40
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
+            font.family: "Proxima Nova Rg"
             anchors.rightMargin: 50
             anchors.leftMargin: 50
             font.bold: true
@@ -60,6 +62,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.WordWrap
+            font.family: "Proxima Nova Rg"
             anchors.rightMargin: 50
             anchors.leftMargin: 50
             font.pixelSize: 15
@@ -68,15 +71,24 @@ Item {
         }
     }
 
+    Rectangle {
+        id: rectOmbraPress
+        visible: false
+        color: "#80848484"
+        anchors.fill: parent
+    }
+
     MouseArea {
         id: mouseArea
         anchors.fill: parent
+        onPressed: rectOmbraPress.visible = true
+        onReleased: rectOmbraPress.visible = false
     }
 }
 
 /*##^##
 Designer {
-    D{i:0;height:250;width:350}
+    D{i:0;height:250;width:350}D{i:8}
 }
 ##^##*/
 
