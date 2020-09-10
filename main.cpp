@@ -53,7 +53,6 @@ int main(int argc, char *argv[])
     // qmlRegisterType<Settings>("com.amtek.locker", 1, 0, "Settings");
     // qmlRegisterType<Prenotazioni>("com.amtek.locker", 1, 0, "Prenotazioni");
     // qmlRegisterType<IoBoard>("com.amtek.locker", 1, 0, "IoBoard"); Permette di istanziare da QML
-    qmlRegisterType<Prenotazione>("com.amtek.locker", 1, 0, "Prenotazione");
 
     engine.rootContext()->setContextProperty( "ioBoard", &ioboard);
     engine.rootContext()->setContextProperty( "prenotazioni", prenotazioni);
@@ -61,6 +60,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty( "ds", &dataSource);
 
     engine.rootContext()->setContextProperty( "farmacia_name", settings->value("farmacia").toString());    // Per l'intestazione della finestra
+
+    qmlRegisterType<Prenotazione>("com.amtek.locker", 1, 0, "Prenotazione");
 
     qRegisterMetaType<TipoPrenotazione>("TipoPrenotazione");
     qmlRegisterUncreatableType<TipoPrenotazioneClass>("com.amtek.locker", 1, 0, "TipoPrenotazione", "Not creatable as it is an enum type");

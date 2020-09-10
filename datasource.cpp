@@ -84,19 +84,39 @@ MachineSettings* DataSource::getSettings()
 
 
 
+/**
+ * @brief DataSource::checkCode
+ * Verifica di un codice introdotto da UI
+ * @param tipo
+ * @param codice
+ * @return
+ */
 Prenotazione* DataSource::checkCode(TipoPrenotazione tipo, QString codice)
 {
     Prenotazione* p = nullptr;
 
-    QString nameType = tipo == TipoPrenotazioneClass::TIPO_RITIRO ? "codice_ritiro" : "codice_consegna";
-    QString strQuery = QString("select * from prenotazioni where %1=%2;").arg(nameType).arg(codice);
+    QString nameType = tipo == TipoPrenotazioneClass::TIPO_RITIRO ? "codice_prenotazione" : "numero_consegna";
+    QString strQuery = QString("select * from prenotazioni where %1='%2';").arg(nameType).arg(codice);
     QSqlQuery query(strQuery);
 
     qDebug() << "[DataSource] query = '" << strQuery;
+    qDebug() << "[DataSource] size = " << strQuery.size();
+    qDebug() << "[DataSource] isEmpty = " << strQuery.isEmpty();
 
     if (query.next()) {
-        qDebug()<< query.boundValues();
+        p = new Prenotazione();
+
+        p->_id = query.value("id").toUInt();
+        p->_isDepositata = query.value("depositata").toBool();
+        p->_isRitirata = query.value("ritirata").toBool();
+        p->_cassetto = query.value("id_cassetto_ws").toUInt();
+        p->_importo = query.value("importo_da_pagare").toFloat();
+
+        qDebug()<< "[DataSource] p:" << p;
     }
+
+    checkResultReady();     // Segnale !!
+
     return p;
 };
 

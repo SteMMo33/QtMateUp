@@ -8,5 +8,6 @@
         <file>fonts/ProximaNova-Regular.otf</file>
         <file>images/qr_code.png</file>
         <file>pageAssistenza.qml</file>
+        <file>images/logo-amtek.png</file>
     </qresource>
 </RCC>

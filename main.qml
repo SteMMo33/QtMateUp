@@ -11,10 +11,11 @@ Window {
     visible: true
     visibility: Window.FullScreen
     color: "black"
+    title: qsTr("QtLocker")
 
 
     property alias edtCodicePrenotazione: edtCodicePrenotazione
-    title: qsTr("QtLocker")
+
 
     FontLoader { id: proximaNovaBold; source: "fonts/ProximaNova-Bold.otf" }
     FontLoader { id: proximaNovaRegular; source: "fonts/ProximaNova-Regular.otf" }
@@ -24,6 +25,8 @@ Window {
         pnlRitiro.visible = false
         pnlPagamento.visible = false
         btnLockerDeposito.visible = true
+        pnlRitiroCassetto.visible = false
+
         txtHeaderC2.text = "SELEZIONA IL SERVIZIO"
         pnlHome.visible = true
     }
@@ -31,7 +34,6 @@ Window {
     Loader {
         id: ld
     }
-
 
 
     Rectangle {
@@ -80,6 +82,17 @@ Window {
                         console.log("Open pageAssistenza")
                         ld.source = "pageAssistenza.qml"
                     }
+                }
+
+                Image {
+                    id: image1
+                    anchors.fill: parent
+                    source: "images/logo-amtek.png"
+                    anchors.rightMargin: 10
+                    anchors.leftMargin: 10
+                    anchors.bottomMargin: 20
+                    anchors.topMargin: 20
+                    fillMode: Image.PreserveAspectFit
                 }
 
             }
@@ -209,6 +222,19 @@ Window {
                 txtHeaderC2.text = "RITIRO ARTICOLO"
             }
 
+        }
+
+        Image {
+            id: image2
+            x: 213
+            y: 163
+            width: 100
+            height: 100
+            source: "images/logo-amtek.png"
+            scale: 5
+            rotation: -11
+            z: 0
+            fillMode: Image.PreserveAspectFit
         }
     }
 
@@ -346,6 +372,14 @@ Window {
         anchors.top: pnlHeader.bottom
         anchors.bottom: parent.bottom
 
+        onVisibleChanged: {
+            console.log("- pnlRitiro visible:"+visible)
+            if (visible){
+                txtMsg.text = ""
+                edtCodicePrenotazione.text = ""
+                edtCodicePrenotazione.focus = true
+            }
+        }
 
         Item {
             id: pnlRitiroInterna
@@ -371,8 +405,6 @@ Window {
             }
 
 
-
-
             Rectangle {
                 id: pnlEditCodice
                 width: 500
@@ -396,18 +428,30 @@ Window {
                     font.pixelSize: 32
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
+
                     font.family: "Proxima Nova Rg"
+                    font.bold: true
+
                     anchors.bottomMargin: 10
                     anchors.topMargin: 10
                     anchors.horizontalCenter: parent.horizontalCenter
-                    selectByMouse: true
-                    font.bold: true
+                    selectByMouse: false
+
                     onFocusChanged: function(){
+                        console.log("onFocusChanged")
                         text=""
-                        gridKeyboard.visible = focus
+                        pnlKeyboard.visible = focus
                     }
-                    onActiveFocusChanged: console.log("onActFocCh");
-                    onActiveFocusOnPressChanged: console.log("onActFocChOnPress");
+                    onActiveFocusChanged: {
+
+                        console.log("onActFocusChgd: "+focus);
+                        pnlKeyboard.visible = focus
+                    }
+                    onActiveFocusOnPressChanged: {
+                        // gridKeyboard
+                        console.log("onActFocusOnPressChgd: "+focus);
+                    }
+
 
                 }
 
@@ -416,6 +460,24 @@ Window {
 
 
 
+
+            Text {
+                id: txtMsg
+                height: 31
+                color: "#ff0404"
+                text: qsTr("Msg")
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: pnlEditCodice.bottom
+                font.pixelSize: 25
+                horizontalAlignment: Text.AlignHCenter
+                anchors.topMargin: 18
+                anchors.rightMargin: 100
+                anchors.leftMargin: 100
+                fontSizeMode: Text.Fit
+                font.family: "Proxima Nova Rg"
+            }
+
             Item {
                 id: pnlIstruzioni
                 width: 800
@@ -423,7 +485,9 @@ Window {
                 anchors.bottom: btnBackHome.top
                 anchors.bottomMargin: 5
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 10
+                anchors.topMargin: 35
+
+
 
                 Image {
                     id: image
@@ -440,8 +504,10 @@ Window {
                 }
 
 
+
+
                 Rectangle {
-                    id: rectangle
+                    id: rectBackIstruzioni
                     width: 504
                     height: 350
                     color: "#848484"
@@ -466,108 +532,148 @@ Window {
                         fontSizeMode: Text.Fit
                     }
                 }
+
             }
 
-            Grid {
-                id: gridKeyboard
-                width: 450
-                height: 483
-                spacing: 1
-                anchors.topMargin: 10
-                rows: 4
-                columns: 3
-                anchors.horizontalCenter: parent.horizontalCenter
+
+            Rectangle {
+                id: pnlKeyboard
+                width: 394
+                height: 508
                 visible: false
+                color: "#ffaaaa"
+                radius: 10
                 anchors.top: pnlEditCodice.bottom
+                anchors.topMargin: 20
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                BtnKeyboard {
-                    id: btnKey1
-                    keyName: "1"
-                    onPressedChanged: function(){
-                        if(pressedButtons) edtCodicePrenotazione.text += "1"
-                    }
-                }
+                Grid {
+                    id: gridKeyboard
+                    x: 24
+                    width: 364
+                    opacity: 1
+                    spacing: 2
+                    rows: 4
+                    columns: 3
+                    visible: true
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottomMargin: 10
+                    anchors.topMargin: 10
+                    verticalItemAlignment: Grid.AlignVCenter
+                    horizontalItemAlignment: Grid.AlignHCenter
+                    clip: false
 
-                BtnKeyboard {
-                    id: btnKey2
-                    keyName: "2"
-                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "2"
-                }
-
-                BtnKeyboard {
-                    id: btnKey3
-                    keyName: "3"
-                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "3"
-                }
-
-                BtnKeyboard {
-                    id: btnKey4
-                    keyName: "4"
-                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "4"
-                }
-
-                BtnKeyboard {
-                    id: btnKey5
-                    keyName: "5"
-                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "5"
-                }
-
-                BtnKeyboard {
-                    id: btnKey6
-                    keyName: "6"
-                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "6"
-                }
-
-                BtnKeyboard {
-                    id: btnKey7
-                    keyName: "7"
-                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "7"
-                }
-
-                BtnKeyboard {
-                    id: btnKey8
-                    keyName: "8"
-                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "8"
-                }
-
-                BtnKeyboard {
-                    id: btnKey9
-                    keyName: "9"
-                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "9"
-                }
-
-                BtnKeyboard {
-                    id: btnKbdHide
-                    textColor: "#ff0404"
-                    keyName: "Hide"
-                    onPressedChanged: function(){
-                        showHome()
-                    }
-                }
-
-                BtnKeyboard {
-                    id: btnKey0
-                    keyName: "0"
-                    onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "0"
-                }
-
-                BtnKeyboard {
-                    id: btnKeyOk
-                    textColor: "#2db502"
-                    keyName: "OK"
-                    onPressedChanged: function(){
-
-                        console.log("OK - "+edtCodicePrenotazione.text)
-                        if (edtCodicePrenotazione){
-                            gridKeyboard.visible = false
-                            var r = ds.checkCode( TipoPrenotazione.TIPO_RITIRO, edtCodicePrenotazione.text)
-                            console.log(r)
+                    BtnKeyboard {
+                        id: btnKey1
+                        keyName: "1"
+                        onPressedChanged: function(){
+                            if(pressedButtons) edtCodicePrenotazione.text += "1"
                         }
-                        showHome()
                     }
-                }
 
+                    BtnKeyboard {
+                        id: btnKey2
+                        keyName: "2"
+                        onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "2"
+                    }
+
+                    BtnKeyboard {
+                        id: btnKey3
+                        keyName: "3"
+                        onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "3"
+                    }
+
+                    BtnKeyboard {
+                        id: btnKey4
+                        keyName: "4"
+                        onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "4"
+                    }
+
+                    BtnKeyboard {
+                        id: btnKey5
+                        keyName: "5"
+                        onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "5"
+                    }
+
+                    BtnKeyboard {
+                        id: btnKey6
+                        keyName: "6"
+                        onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "6"
+                    }
+
+                    BtnKeyboard {
+                        id: btnKey7
+                        keyName: "7"
+                        onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "7"
+                    }
+
+                    BtnKeyboard {
+                        id: btnKey8
+                        keyName: "8"
+                        onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "8"
+                    }
+
+                    BtnKeyboard {
+                        id: btnKey9
+                        keyName: "9"
+                        onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "9"
+                    }
+
+                    BtnKeyboard {
+                        id: btnKbdCanc
+                        textColor: "#ff0404"
+                        keyName: "CANC"
+                        onPressedChanged: function(){
+                            // showHome()
+                            edtCodicePrenotazione.text = edtCodicePrenotazione.text.substring( 0, edtCodicePrenotazione.text.length)
+                        }
+                    }
+
+                    BtnKeyboard {
+                        id: btnKey0
+                        keyName: "0"
+                        onPressedChanged: if(pressedButtons) edtCodicePrenotazione.text += "0"
+                    }
+
+                    BtnKeyboard {
+                        id: btnKeyOk
+                        textColor: "#2db502"
+                        keyName: "OK"
+                        mouse.onClicked: function(){
+
+                            // if (!pressed) return;
+
+                            console.log("OK - "+edtCodicePrenotazione.text)
+                            if (edtCodicePrenotazione){
+                                pnlKeyboard.visible = false
+
+                                var r = ds.checkCode( TipoPrenotazione.TIPO_RITIRO, edtCodicePrenotazione.text)
+                                console.log("ret: "+r)
+                                if (r===null)
+                                    txtMsg.text = "Prenotazione non trovata"
+                                else {
+                                    console.log("Trovata!", r)
+                                    txtMsg.text = "Prenotazione trovata !"
+                                    console.log(r.id)
+                                    console.log(r.cassetto)
+
+                                    pnlRitiro.visible = false
+
+                                    testo1.text = "Prelevare dal cassetto n. XX"
+                                    testo2.text = "Prelevare dal cassetto n. XX"
+                                    testo3.text = "Alla fine per cortesia chiudere il cassetto"
+                                    pnlRitiroCassetto.visible = true
+                                    timerRitiroCassetto.running = 1
+                                }
+                            }
+                        }
+                    }
+
+                }
             }
+
 
             BtnLocker {
                 id: btnBackHome
@@ -583,10 +689,16 @@ Window {
                 onClick: showHome()
             }
 
+
+
         }
     }
 
-
+    Prenotazione {
+        id: prenotazioneCheck
+        onCassettoChanged: (x) => console.log("! cassChanged ", x)
+        onImportoChanged: (x) => console.log("! importoChanged ", x)
+    }
 
     Rectangle {
         id: pnlPagamento
@@ -596,6 +708,8 @@ Window {
         anchors.right: parent.right
         anchors.top: pnlHeader.bottom
         anchors.bottom: parent.bottom
+
+
         Rectangle {
             id: pnlPagamentoInterno
             width: 470
@@ -656,6 +770,14 @@ Window {
         anchors.top: pnlHeader.bottom
         anchors.bottom: parent.bottom
 
+        Timer {
+            id: timerRitiroCassetto
+            interval: 6000;
+            running: false;
+            repeat: false
+            onTriggered: showHome()
+        }
+
         Text {
             id: testo1
             y: 138
@@ -664,7 +786,7 @@ Window {
             text: qsTr("Text")
             anchors.left: parent.left
             anchors.right: parent.right
-            font.pixelSize: 36
+            font.pixelSize: 50
             horizontalAlignment: Text.AlignHCenter
             font.family: "Proxima Nova Rg"
             anchors.rightMargin: 0
@@ -680,7 +802,7 @@ Window {
             text: qsTr("Text2")
             anchors.left: parent.left
             anchors.right: parent.right
-            font.pixelSize: 12
+            font.pixelSize: 30
             horizontalAlignment: Text.AlignHCenter
             anchors.rightMargin: 0
             anchors.leftMargin: 0
@@ -693,7 +815,7 @@ Window {
             text: qsTr("Text3")
             anchors.left: parent.left
             anchors.right: parent.right
-            font.pixelSize: 12
+            font.pixelSize: 25
             horizontalAlignment: Text.AlignHCenter
             anchors.rightMargin: 0
             anchors.leftMargin: 0
@@ -709,8 +831,10 @@ Window {
 
 
 
+
+
 /*##^##
 Designer {
-    D{i:60}D{i:61}D{i:62}D{i:59}
+    D{i:11}D{i:44}
 }
 ##^##*/

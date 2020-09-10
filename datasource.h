@@ -13,6 +13,9 @@ class DataSource : public QObject
 {
     Q_OBJECT
 
+    // Q_PROPERTY(Prenotazione prenotazione READ getPrenotazione WRITE setCounter NOTIFY counterChanged);
+    // Q_PROPERTY(Prenotazione prenotazione READ getPrenotazione NOTIFY checkResultReady);
+
 public:
     DataSource();
     virtual ~DataSource();
@@ -23,9 +26,17 @@ public:
 
     Q_INVOKABLE Prenotazione* checkCode(TipoPrenotazione tipo, QString codice);
 
+
+    // Prenotazione getPrenotazione() { return prenotazioneEsito; };
+
+signals:
+    void checkResultReady();
+
 private:
     QSqlDatabase db;
     bool _open;
+
+    Prenotazione prenotazioneEsito;
 };
 
 

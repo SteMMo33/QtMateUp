@@ -8,6 +8,7 @@ Item {
     property alias textColor: keyName.color
     property alias pressed: mouseArea.pressed
     property alias pressedButtons: mouseArea.pressedButtons
+    property alias mouse: mouseArea
 
     Rectangle {
         id: rectBackground
