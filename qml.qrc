@@ -9,5 +9,7 @@
         <file>images/qr_code.png</file>
         <file>pageAssistenza.qml</file>
         <file>images/logo-amtek.png</file>
+        <file>BtnProdotto.qml</file>
+        <file>BtnCategoria.qml</file>
     </qresource>
 </RCC>

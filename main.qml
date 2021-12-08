@@ -1,17 +1,18 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
-import com.amtek.locker 1.0
+// import com.amtek.locker 1.0
+import QtQuick.Controls 1.5
 
 
 Window {
 
     id: window
-    width: 900
+    width: 1000
     height: 800
     visible: true
-    visibility: Window.FullScreen
+    // visibility: Window.FullScreen
     color: "black"
-    title: qsTr("QtLocker")
+    title: qsTr("QtMateUp")
 
 
     property alias edtCodicePrenotazione: edtCodicePrenotazione
@@ -114,7 +115,7 @@ Window {
                     id: txtHeaderC1
                     height: 37
                     color: "#fdfdfd"
-                    text: farmacia_name
+                    text: "Farmacia"
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: parent.top
@@ -202,39 +203,96 @@ Window {
         anchors.top: pnlHeader.bottom
         anchors.bottom: parent.bottom
 
-        BtnLocker {
-            id: btnLockerRitiroArticolo
-            x: 14
-            y: 25
-            width: 589
-            height: 410
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            textSecSize: 23
-            textMainSize: 48
-            textSec:  "Clicca qui per ritirare un articolo"
-            textMain: "RITIRO ARTICOLO"
-            onClick: function(){
-                pnlRitiro.visible = true
-                pnlHome.visible = false
-                btnLockerDeposito.visible = false
 
-                txtHeaderC2.text = "RITIRO ARTICOLO"
+        ListView{
+            id: listView
+            height: 250
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            anchors.topMargin: 5
+            orientation: ListView.Horizontal
+
+            ListModel {
+                id: listaCategorie
+                ListElement {
+                    nome: "Categoria 1"
+                }
+                ListElement {
+                    nome: "Categoria 2"
+                }
+                ListElement { nome: "Categoria 3"   }
+                ListElement { nome: "Categoria 4"   }
+                ListElement { nome: "Categoria 5"   }
+                ListElement { nome: "Categoria 6"   }
+                ListElement { nome: "Categoria 7"   }
+                ListElement { nome: "Categoria 8"   }
+                ListElement { nome: "Categoria 9"   }
+                ListElement { nome: "Categoria 10"   }
             }
+
+            model: listaCategorie
+
+            delegate:
+                BtnCategoria {
+                    txtNome.text: "QQQWWW"
+                }
+
 
         }
 
-        Image {
-            id: image2
-            x: 213
-            y: 163
-            width: 100
-            height: 100
-            source: "images/logo-amtek.png"
-            scale: 5
-            rotation: -11
-            z: 0
-            fillMode: Image.PreserveAspectFit
+        Rectangle {
+            color: "#00000000"
+            anchors.top: listView.bottom
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            Flickable {
+                anchors.fill: parent
+                flickableDirection: Flickable.VerticalFlick
+                contentHeight: 400
+                contentWidth: 600
+        Grid {
+            id: gridProdotti
+            spacing: 5
+            anchors.top: parent.top
+            anchors.topMargin: 5
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+            anchors.left: parent.left
+            anchors.leftMargin: 5
+            anchors.bottom: parent.bottom
+            rows: 3
+            columns: 2
+
+
+            BtnProdotto {
+                txtNome: "Prodotto 1"
+                txtPrezzo: "1.00"
+            }
+
+            BtnProdotto {
+                id: btnProdotto
+            }
+
+            BtnProdotto {
+                txtNome: "Prodotto 2"
+                txtPrezzo: "13.50"
+            }
+
+            BtnProdotto {
+                txtNome: "Prodotto 2"
+                txtPrezzo: "13.50"
+            }
+
+            BtnProdotto {
+                txtNome: "Prodotto 2"
+                txtPrezzo: "13.50"
+            }
+
+        }}
         }
     }
 
@@ -694,11 +752,12 @@ Window {
         }
     }
 
+    /*
     Prenotazione {
         id: prenotazioneCheck
-        onCassettoChanged: (x) => console.log("! cassChanged ", x)
-        onImportoChanged: (x) => console.log("! importoChanged ", x)
-    }
+        onCassettoChanged: console.log("! cassChanged ", x)
+        onImportoChanged: console.log("! importoChanged ", x)
+    }*/
 
     Rectangle {
         id: pnlPagamento
@@ -770,13 +829,6 @@ Window {
         anchors.top: pnlHeader.bottom
         anchors.bottom: parent.bottom
 
-        Timer {
-            id: timerRitiroCassetto
-            interval: 6000;
-            running: false;
-            repeat: false
-            onTriggered: showHome()
-        }
 
         Text {
             id: testo1
@@ -822,6 +874,7 @@ Window {
             fontSizeMode: Text.Fit
         }
     }
+
 }
 
 
@@ -838,3 +891,72 @@ Designer {
     D{i:11}D{i:44}
 }
 ##^##*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*##^## Designer {
+    D{i:21;anchors_width:900;anchors_x:50;anchors_y:10}D{i:49;invisible:true}D{i:50;invisible:true}
+D{i:51;invisible:true}D{i:42;invisible:true}D{i:75;invisible:true}D{i:76;invisible:true}
+D{i:52;invisible:true}D{i:80;invisible:true}D{i:81;invisible:true}D{i:82;invisible:true}
+}
+ ##^##*/

@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
 
     // Preparazione ambiente
-
+/*
     DataSource dataSource;
     Prenotazioni* prenotazioni = dataSource.getPrenotazioni();
     MachineSettings* settings = dataSource.getSettings();
@@ -65,11 +65,11 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<TipoPrenotazione>("TipoPrenotazione");
     qmlRegisterUncreatableType<TipoPrenotazioneClass>("com.amtek.locker", 1, 0, "TipoPrenotazione", "Not creatable as it is an enum type");
-
+*/
     engine.load(url);
 
     // Cassetti
-    qDebug() << "Cassetti da DB: " << cassetti->length();
+    //qDebug() << "Cassetti da DB: " << cassetti->length();
 	
     return app.exec();
 }
